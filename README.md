@@ -69,12 +69,12 @@ To resolve the conflict between organic forms (which minimize twist) and archite
 * **`FIXED`:** Forces a fixed orientation. Prevents "banking" on curves. Ideal for roads and UI elements.  
 * **Custom vector:** If a vector is provided, it serves as a slice normal. The orientation of the profile plane is locked by this normal throughout the sweep. In the case of a 2D sweep geometry, the profile acts as a calligraphy brush.
 
-### Transformations
+### Geometric attributes
 
 Here, a _vertex attribute_ is an attribute that may be applied at the level of individual vertices, or globally, by allowing an attribute applied to one vertex to fall through to subsequent vertices.
 
-* **Scaling:** The `sweepSliceScale(scale)` vertex attribute acts as a multiplier, just like the p5 `scale()` function, except that it applies only to the sweep slice, rather than the entire canvas.  
-* **Rotating:** Rotation is controlled via the `sweepSliceRotation(angle)` vertex attribute. Angle values are treated as absolute linear `Number` values rather than modular angles. This allows for multi-turn twists (e.g., 0 to $4\pi$). To create a seamless twisted loop, the user specifies the start rotation (e.g., 0\) and the end rotation (e.g., $2\pi$) manually.
+* **Size:** The `sweepSliceFactor(factor)` vertex attribute sets the scale factor of the profile relative to its original size.
+* **Angle:** The `sweepSliceAngle(angle)` vertex attribute sets the angle of the profile relative to the normal direction. It treats angle values as absolute linear `Number` values rather than cyclic values. This allows for multi-turn twists (e.g., 0 to $4\pi$). To create a seamless twisted loop, the user specifies the start angle (e.g., 0) and the end angle (e.g., $2\pi$) manually.
 
 ### Stroke attributes
 
