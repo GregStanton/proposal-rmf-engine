@@ -78,7 +78,7 @@ Here, a _vertex attribute_ is an attribute that may be applied at the level of i
 
 ### Stroke attributes
 
-* The `strokeWeight()` vertex attribute resizes the profile so the maximum dimension of its bounding box matches the provided weight. It’s an absolute resizing function, to complement the relative `sweepSliceScale(scale)`.  
+* The `strokeWeight()` vertex attribute resizes the profile so the maximum dimension of its bounding box matches the provided weight. It’s an absolute resizing function, to complement `sweepSliceFactor(factor)`.
 * The `strokeJoin()` vertex attribute supports the exact same options that are currently available for paths in the p5.js API.  
 * The `strokeCap()` attribute also supports the same options that are currently available. In the case of a round cap, a rotational sweep is performed. The `ROUND` option is the same as `HORIZONTAL_ROUND`, which rotates over a horizontal axis. The other option is `VERTICAL_ROUND`.
 
