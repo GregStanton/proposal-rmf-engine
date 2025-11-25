@@ -1,12 +1,12 @@
 # RMF Engine for creative coding: <br /> High-fidelity sweep geometries and rails
 
-We propose a high-fidelity _RMF Engine_ designed to be a robust geometric core for a broad expanse of creative-coding features, ranging from expressive geometries to choreographed motions. To illustrate the unifying force of the underlying rotation minimizing frames, we present an intuitive and highly expressive API to go on top. 
-
-We use a state-of-the-art technique to eliminate distortions inherent to standard approaches. While this proposal centers on sweep geometries, the method also provides a reusable, composable system that supports a wide range of motion-based applications. These are briefly introduced in an appendix.
-
 **Status:** Stage 0 (Strawman)—*Proof of concept in development*  
 **Author:** Greg Stanton   
 **Target:** Proof of Concept by November 28, 2025
+
+We propose a high-fidelity _RMF Engine_ designed to be a robust geometric core for a broad expanse of creative-coding features, ranging from expressive geometries to choreographed motions. To illustrate the unifying force of the underlying rotation minimizing frames, we present an intuitive and highly expressive API to go on top. 
+
+We use a state-of-the-art technique to eliminate distortions inherent to standard approaches. While this proposal centers on sweep geometries, the method also provides a reusable, composable system that supports a wide range of motion-based applications. These are briefly introduced in an appendix.
 
 # Problem
 
