@@ -12,7 +12,7 @@ We use a state-of-the-art technique to eliminate distortions inherent to standar
 
 Sweep geometries are extremely useful in computer graphics. They sweep a 2D shape (a _profile_ or _cross section_) across a 3D-space curve (_spine_, _backbone_, or _rail_). This essential feature is available in a wide range of graphics software (including [three.js](https://threejs.org/docs/#ExtrudeGeometry), [Blender](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/operations/curve_to_mesh.html), [Houdini](https://www.sidefx.com/docs/houdini/nodes/sop/sweep.html#:~:text=18.0-,Overview,parameter%20on%20the%20Construction%20tab.), [Maya](https://help.autodesk.com/view/MAYAUL/2024/ENU/?guid=GUID-04C6192A-1524-48FA-B5BC-7745FC25D26D), and [Autocad](https://help.autodesk.com/view/ACD/2025/ENU/?guid=GUID-2391CE97-3794-402C-8BC1-E2DCB452DD13)). 
 
-Essential use cases include ribbons, tubes, and brushes. A ribbon is a surface that results from sweeping an open profile curve across the spine curve. These can be made to look like physical ribbons. A tube is a surface or solid that results from sweeping a closed curve across the spine curve. These can be made to look like the tube in a neon sign. A brush is a 2D profile that may be a set of discrete points or a mixture of different shape kinds. By setting a fixed orientation, a calligraphy brush may be created. In all cases, the profile may be scaled or rotated as it’s swept out, creating dynamic and twisting shapes.
+Essential use cases include **ribbons**, **tubes**, and **brushes**. A ribbon is a surface that results from sweeping an open profile curve across the spine curve. These can be made to look like physical ribbons. A tube is a surface or solid that results from sweeping a closed curve across the spine curve. These can be made to look like the tube in a neon sign. A brush is a 2D profile that may be a set of discrete points or a mixture of different shape kinds. By setting a fixed orientation, a calligraphy brush may be created. In all cases, the profile may be scaled or rotated as it’s swept out, creating dynamic and twisting shapes.
 
 However, these features are subject to well known pain points for users, including distortions that result from inflection points. Implementations like the one currently in three.js fail to address the problem. In popular creative-coding libraries using a `beginShape()`/`endShape()` API—including p5.js, Processing, and openFrameworks—no dedicated feature for producing sweep geometries exists at all. This significantly reduces the API’s artistic expressiveness.
 
@@ -25,6 +25,21 @@ We present a solution that enriches the fundamental concept of a stroke, expandi
 The revised `beginShape()`/`endShape()` API introduced in p5.js 2.0 is extremely intuitive and extensible. The implementation overhaul also introduced a new `p5.Shape` class (this class has not yet been exposed to the user, but this is planned, once the class is sufficiently stable). 
 
 We will discuss how this API may be extended to sweep geometries. The solution described here leverages the new p5 API to make the creation of these flexible geometries incredibly natural.
+
+A basic example of the API is indicated in the snippet below. 
+
+```js
+beginShape(SWEEP);
+
+// profile
+sweepSlice(slice);
+
+// spine
+vertex(x1, y1);
+vertex(x2, y2);
+
+endShape();
+```
 
 ### General usage
 
@@ -113,7 +128,7 @@ While standard implementations (like those in naive Blender scripts) often corre
 
 Following the variational principles established by Wang et al. (2008), we implement a *Minimal Total Squared Angular Speed* correction. This requires distributing the angular error proportional to the *arc length* of the curve, not the parameter $t$.
 
-**Cohesive architecture:** This requirement necessitates the existence of an *Arc-Length Parameterization System* within the core geometry engine. A 2002 review of techniques (Wang et. al.) suggests a Look-Up Table (LUT) approach. While the original motivation is to ensure seamless geometric continuity, this LUT approach opens the door to exciting capabilities in motion choreography (see Appendix).
+**Cohesive architecture:** This requirement necessitates the existence of an *Arc-Length Parameterization System* within the core geometry engine. A 2002 review of techniques (Wang et al.) suggests a Look-Up Table (LUT) approach. While the original motivation is to ensure seamless geometric continuity, this LUT approach opens the door to exciting capabilities in motion choreography (see Appendix).
 
 # Proof of concept
 
