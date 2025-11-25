@@ -4,9 +4,11 @@
 **Author:** Greg Stanton   
 **Target:** Proof of Concept by November 28, 2025
 
-We propose a high-fidelity _RMF Engine_ designed to be a robust geometric core for a broad expanse of creative-coding features, ranging from expressive geometries to choreographed motions. To illustrate the unifying force of the underlying rotation minimizing frames, we present an intuitive and highly expressive API to go on top. 
+We propose a high-fidelity _RMF Engine_ designed to be a geometric core for a broad expanse of creative-coding features, ranging from expressive geometries to choreographed motions. To illustrate the unifying force of the underlying rotation minimizing frames, we present an intuitive and highly expressive API layered atop this core.
 
-We use a state-of-the-art technique to eliminate distortions inherent to standard approaches. While this proposal centers on sweep geometries, the method also provides a reusable, composable system that supports a wide range of motion-based applications. These are briefly introduced in an appendix.
+We use a state-of-the-art technique (_double reflection_) to eliminate the twist distortions inherent to standard approaches. This provides an artifact-free implementation of versatile sweep geometries, including ribbons, tubes, and brushes.
+
+Crucially, solving twist distortions necessitates a robust arc-length reparameterization system. We implement a pre-computed look-up table (LUT) with Newton-Raphson refinement to achieve high precision at real-time frame rates. This decouples geometry from timing, providing a composable system that allows cameras and objects to smoothly traverse complex rails at exact, prescribed speeds.
 
 # Problem
 
@@ -154,7 +156,7 @@ Standard spline implementations (Catmull-Rom, Cubic Bézier) generally utilize u
 
 ## 2\. The solution: Arc-length reparameterization
 
-This proposal implements an arc-length look-up table (LUT) alongside the RMF computation, allowing us to expose a `getPointAtLength(distance)` method (and its normalized sibling `getPointAtNormalizedLength(0..1)`). The applications of this approach extend beyond customizable motion to fundamental features such as shape morphing, dashed lines, and placing text along a curved path.
+This proposal implements an arc-length look-up table (LUT) alongside the RMF computation, allowing us to expose `getPointAtLength(length)` and `getTotalLength()` methods. The applications of this approach extend beyond customizable motion to fundamental features such as shape morphing, dashed lines, and placing text along a curved path.
 
 ## 3\. Applications to motion
 
