@@ -26,7 +26,7 @@ In creative-coding libraries using a `beginShape()`/`endShape()` API—including
 
 # Solution
 
-We present a solution that enriches the fundamental concept of a stroke, expanding it into an intuitive, expressive system for creating dynamic and textured 2D lines, as well as 3D ribbons, tubes, and rails.
+We present a solution that enriches the fundamental concept of a stroke, expanding it into an intuitive, expressive system for creating dynamic and textured lines in 2D, as well as ribbons, tubes, and rails in 3D.
 
 ## API
 
