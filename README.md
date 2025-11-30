@@ -126,7 +126,7 @@ We can also extend the stroke joins of flat lines to general 3D sweep geometries
 
 Closed loops present a specific geometric challenge known as *holonomy*: the final RMF frame $U_{end}$ often arrives with a rotational offset relative to the starting frame $U_{start}$. This results in a visible seam or "snap" where the geometry connects.
 
-While standard implementations (like those in naive Blender scripts) often correct this by distributing the error linearly across the parameter $t$, this approach causes visual artifacts (uneven twisting) when control points are not equidistant (Blender Foundation, 2025).
+While standard implementations often correct this by distributing the error linearly across the parameter $t$, this approach causes visual artifacts (uneven twisting) when control points are not equidistant (Blender Foundation, 2025).
 
 Following the variational principles established by Wang et al. (2008), we implement a *Minimal Total Squared Angular Speed* correction. This requires distributing the angular error proportional to the *arc length* of the curve, not the parameter $t$.
 
