@@ -14,9 +14,15 @@ Crucially, solving twist distortions necessitates a robust arc-length reparamete
 
 Sweep geometries are extremely useful in computer graphics. They sweep a 2D shape (a _profile_ or _cross section_) across a 3D-space curve (_spine_, _backbone_, or _rail_). This essential feature is available in a wide range of graphics software (including [three.js](https://threejs.org/docs/#ExtrudeGeometry), [Blender](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/operations/curve_to_mesh.html), [Houdini](https://www.sidefx.com/docs/houdini/nodes/sop/sweep.html#:~:text=18.0-,Overview,parameter%20on%20the%20Construction%20tab.), [Maya](https://help.autodesk.com/view/MAYAUL/2024/ENU/?guid=GUID-04C6192A-1524-48FA-B5BC-7745FC25D26D), and [Autocad](https://help.autodesk.com/view/ACD/2025/ENU/?guid=GUID-2391CE97-3794-402C-8BC1-E2DCB452DD13)). 
 
-Essential use cases include **ribbons**, **tubes**, and **brushes**. A ribbon is a surface that results from sweeping an open profile curve across the spine curve. These can be made to look like physical ribbons. A tube is a surface or solid that results from sweeping a closed curve across the spine curve. These can be made to look like the tube in a neon sign. A brush is a 2D profile that may be a set of discrete points or a mixture of different shape kinds. By setting a fixed orientation, a calligraphy brush may be created. In all cases, the profile may be scaled or rotated as it’s swept out, creating dynamic and twisting shapes.
+Essential use cases include ribbons, tubes, and brushes. A _ribbon_ is a surface that results from sweeping an open profile curve across the spine curve. These can be made to look like physical ribbons. A _tube_ is a surface or solid that results from sweeping a closed curve across the spine curve. These can be made to look like the tube in a neon sign. A _brush_ is a 2D profile that may be a set of discrete points or a mixture of different shape kinds. By setting a fixed orientation, a calligraphy brush may be created. In all cases, the profile may be scaled or rotated as it’s swept out, creating dynamic and twisting shapes.
 
-However, these features are subject to well known pain points for users, including distortions that result from inflection points. Implementations like the one currently in three.js fail to address the problem. In popular creative-coding libraries using a `beginShape()`/`endShape()` API—including p5.js, Processing, and openFrameworks—no dedicated feature for producing sweep geometries exists at all. This significantly reduces the API’s artistic expressiveness.
+However, these features are subject to well known pain points for users: 
+
+* **singularity flipping** (this can occur in Frenet-Serret implementations where the frame suddenly flips 180° due to vanishing curvature)  
+* **reference twisting** (this can occur in look-at/fixed-up implementations when the frame suddenly twists due to a vanishing cross product)   
+* **angular drifting** (this can occur even with rotation minimizing frames, unless a correction is applied, with the most noticeable effect being a sudden twist when a frame returns to its starting point on a loop)
+
+In creative-coding libraries using a `beginShape()`/`endShape()` API—including p5.js, Processing, and openFrameworks—no dedicated feature for sweep geometries exists at all. This significantly reduces the API’s artistic expressiveness.
 
 # Solution
 
