@@ -108,7 +108,7 @@ Here, we outline high-level aspects of a robust implementation.
 
 ### Sweeping
 
-To solve the distortion problem inherent to Frenet-Serret frames, we can implement the state-of-the-art method known as *double reflection*. Compared to previous solutions, this technique improves accuracy, simplicity, and speed. More precisely, *it offers* $\mathcal{O}(h^4)$ *accuracy*, compared to the standard $\mathcal{O}(h^2)$, ensuring stability even with fewer samples.
+To solve the distortions inherent to the Frenet-Serret and fixed-up approaches, we can use rotation minimizing frames, computed with a state-of-the-art method known as *double reflection*. Compared to previous methods, this technique improves accuracy, simplicity, and speed. More precisely, *it offers* $\mathcal{O}(h^4)$ *accuracy*, compared to the standard $\mathcal{O}(h^2)$, ensuring stability even with fewer samples.
 
 The technique was introduced by Wang, Jüttler, Zheng, and Liu (2008), researchers at the University of Hong Kong and Johannes Kepler University, in the paper *Computation of Rotation Minimizing Frames*. A recent overview of related techniques may be found in *Balancing Rotation Minimizing Frames with Additional Objectives* by Mossman, Bartels, and Samavati (2023), representing research from the University of Calgary and the University of Waterloo.
 
@@ -154,7 +154,7 @@ Wang, W., Jüttler, B., Zheng, D., & Liu, Y. (2008). Computation of rotation min
 
 # Appendix: Opening the door to customizable motion
 
-While the primary focus of this proposal is static geometry generation, the underlying Rotation Minimizing Frame (RMF) system serves as a powerful engine for motion and animation. By decoupling the coordinate frame computation from the mesh generation, we create a reusable system for establishing rails in 3D space that other systems can ride upon.
+While the primary focus of this proposal is static geometry generation, the underlying Rotation Minimizing Frame (RMF) system also serves as a powerful engine for motion and animation.
 
 ## 1\. The problem of parameterization
 
@@ -166,8 +166,8 @@ This proposal implements an arc-length look-up table (LUT) alongside the RMF com
 
 ## 3\. Applications to motion
 
-This infrastructure unlocks three critical capabilities for the broader ecosystem:
+This infrastructure unlocks three critical capabilities for motion graphics in the broader ecosystem:
 
-* **Cinematic camera & object tracking:** Because the RMF method guarantees minimal twist, it is the ideal candidate for camera paths. A camera attached to a frame derived from `getFrameAtLength(t)` will bank smoothly through curves without the violent "flipping" artifacts associated with `lookAt()` or Frenet-Serret implementations.  
+* **Cinematic camera & object tracking:** Because the RMF method guarantees minimal twist, it is the ideal candidate for camera paths. A camera attached to a frame derived from `getFrameAtLength(t)` will bank smoothly through curves without the violent flipping or twisting artifacts associated with Frenet-Serret or fixed-up implementations.
 * **Write-on & write-off effects:** Rendering a tube that grows or recedes along a path becomes a trivial, production-quality operation. Constant-speed motion is built in, allowing pleasing transitions for motion graphics, or handwriting that reveals itself naturally over time. Text can even be made to flow along bespoke curves at a prescribed speed.  
 * **Composable easing:** A user can define a complex spatial trajectory, and then apply a bounce or spring easing function to the traversal progress, trusting that the visual output will map 1:1 to their timing logic. This works because arc-length parameterization effectively decouples the *geometry* (the path) from the *timing* (the motion). This allows developers to compose paths with expressive easing features.
