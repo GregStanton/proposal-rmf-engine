@@ -142,6 +142,10 @@ Following the variational principles established by Wang et al. (2008), we imple
 
 The code in this repository is meant to validate the performance and stability of the RMF algorithm before proposing a merge into p5.js or other software. To isolate the mathematical core from any framework overhead, I have chosen to implement the engine in a standalone, raw WebGL environment.
 
+# WebGL2 and GLSL primer
+
+For anyone who'd like to get up to speed in order to understand the implementation, I've provided a [primer](docs/webgl2-and-glsl-primer.md), starting from scratch with WebGL2 and GLSL fundamentals.
+
 # References
 
 Blender Foundation. (2025). *Blender 4.3 Reference Manual: Curve Shape*. Retrieved from [https://docs.blender.org/manual/en/latest/modeling/curves/properties/shape.html](https://docs.blender.org/manual/en/latest/modeling/curves/properties/shape.html)
