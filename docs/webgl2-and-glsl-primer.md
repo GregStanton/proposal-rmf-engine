@@ -185,8 +185,10 @@ It’s time to make our first project! We just need to learn a few additional co
 **A:** Syntax: `gl.clear(buffer1 | buffer2)`. This uses the bitwise OR operator: `|` (a single pipe character).
 
 ## Project 1: Colored canvas
+<img width="250" height="250" alt="yellow canvas" src="https://github.com/user-attachments/assets/0498abe0-4899-4204-9549-36e62a7644fa" />
 
-**Problem:** Set up an `index.html` file and a JavaScript file. Make a canvas, get the WebGL context, and use it to set the canvas to a color of your choosing.
+**Problem:**  
+Set up an `index.html` file and a JavaScript file. Make a canvas, get the WebGL context, and use it to set the canvas to a color of your choosing.
 
 **Solution:**
 ```html  
@@ -329,7 +331,8 @@ Now we'll work toward getting a triangle on the screen. This will take some work
 
 This project is continued from [Project 1](#project-1-colored-canvas).
 
-**Problem:** Extend your `yellow-canvas.js` program so that it defines a triangle as a flat array of three $(x, y)$ vertices. Create and bind a VAO and VBO, and upload the triangle data to the VBO. Assume the triangle data will not change after it’s uploaded.
+**Problem:**  
+Extend your `yellow-canvas.js` program so that it defines a triangle as a flat array of three $(x, y)$ vertices. Create and bind a VAO and VBO, and upload the triangle data to the VBO. Assume the triangle data will not change after it’s uploaded. (We won't render the triangle yet. We'll do that in the next project.)
 
 **Solution:**
 
@@ -619,7 +622,13 @@ const shader = `#version 300 es
 **A:** `gl.useProgram(program)`  
 **Hint:** This tells the WebGL state machine: "For all subsequent draw calls, use this specific compiled executable."
 
-## Project 3: Make boilerplate utility and draw triangle
+## Project 3: Make boilerplate helper and draw triangle
+<img 
+  width="250" 
+  height="250" 
+  alt="yellow canvas with an orange triangle in the center" 
+  src="https://github.com/user-attachments/assets/47448258-5800-45aa-8e61-a172ed90d46a" 
+/>
 
 **Goal:** Update `yellow-canvas.js` to render your existing triangle geometry in orange, on top of the yellow background.
 
