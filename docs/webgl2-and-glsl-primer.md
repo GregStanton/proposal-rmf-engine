@@ -218,7 +218,7 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 # Hello triangle
 Now we'll work toward getting a triangle on the screen. This will take some work, since we're going to make sure we understand all the low-level boilerplate.
 
-## The data bridge (getting CPU data onto the GPU)
+## Starting the data bridge (getting CPU data onto the GPU)
 
 **Q:** In WebGL, what does VBO stand for?  
 **A:** Vertex Buffer Object
@@ -284,6 +284,12 @@ Now we'll work toward getting a triangle on the screen. This will take some work
 **Q:** In `gl.bufferData`, if the geometry will not change after it is uploaded, what usage constant should be passed?   
 **A:** `gl.STATIC_DRAW`
 
+**Q:** In WebGL, an attribute will not be used unless you explicitly turn it on, using what function? Name the function (don’t specify any parameters).  
+**A:** `gl.enableVertexAttribArray()`
+
+**Q:** In WebGL, what function tells the VAO how to interpret the data in the currently bound VBO? Name the function (don’t specify any parameters).  
+**A:** `gl.vertexAttribPointer()`
+
 ## Coordinates expected by WebGL
 
 **Q:** In WebGL, vertex coordinates in a VBO are expected to be in what space? Name the space and indicate the pipeline transform that maps to it.  
@@ -328,27 +334,32 @@ This project is continued from [Project 1](#project-1-colored-canvas).
 **Solution:**
 
 ```javascript  
-const canvas = document.getElementById('yellow-canvas');  
-const gl = canvas.getContext('webgl2');  
+// CANVAS
+const canvas = document.getElementById('yellow-canvas');
+const gl = canvas.getContext('webgl2');
 const yellow = [243 / 255, 208 / 255, 62 / 255, 1];
 
-gl.clearColor(...yellow);  
+gl.clearColor(...yellow);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
-const triangleSideLength = 1 / 2;  
-const triangleHeight = Math.sqrt(3) * triangleSideLength / 2;
+// TRIANGLE
+const TAU = 2 * Math.PI;
+const r = 2 / 3;
+const t0 = TAU / 4;
+const dt = TAU / 3;
 
-const triangleVertices = new Float32Array([  
-  0, triangleHeight / 2,   
-  -triangleSideLength / 2, -triangleHeight / 2,   
-  triangleSideLength / 2, -triangleHeight / 2  
+const triangleVertices = new Float32Array([
+  r * Math.cos(t0), r * Math.sin(t0), 
+  r * Math.cos(t0 + dt), r * Math.sin(t0 + dt), 
+  r * Math.cos(t0 + 2 * dt), r * Math.sin(t0 + 2 * dt),
 ]);
 
-const vao = gl.createVertexArray();  
-gl.bindVertexArray(vao);  
-const vbo = gl.createBuffer();  
-gl.bindBuffer(gl.ARRAY_BUFFER, vbo);  
-gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);  
+// STATE MANAGEMENT: VAO AND VBO
+const vao = gl.createVertexArray();
+gl.bindVertexArray(vao);
+const vbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 ```
 
 ## GLSL ES 3.00 syntax
@@ -369,13 +380,25 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 **Q:** In GLSL, if `pos` is a variable of type `vec2`, how do you create a `vec4` using `pos` for the first two components, `0.0` for `z`, and `1.0` for `w`?  
 **A:** `vec4(pos, 0.0, 1.0)`
 
-**Q:** In GLSL, if `pos` is a variable of type `vec2`, the code `vec4(pos, 0.0, 1.0)` employs ________ in order to process the `pos` data.  
-**A:** *Casting* (it casts the `vec2` type to two separate float arguments)
-
 ## Shader syntax
 
-**Q:** What is the very first line of code required in any WebGL2 shader?   
-**A:** `#version 300 es` (Hint: This refers to GLSL ES 3.00.)
+**Q:** In a WebGL2 shader source string, what must the very first line be?  
+**A:** `#version 300 es`
+**Hint:** This refers to GLSL ES 3.00.
+
+**Q:** In a WebGL2 shader, what is wrong with the following code?
+```javascript
+const shader = `
+#version 300 es
+// more code here...
+`;
+```
+**A:** There is a newline after the backtick, creating a blank line above the version specification. It should look like this instead:
+```javascript
+const shader = `#version 300 es
+// more code here...
+`;
+```
 
 **Q:** In GLSL, which shader stage requires an explicit precision declaration?   
 **A:** The fragment shader. (Hint: If vertices aren’t in the right place, things go wrong, so high precision is mandated for vertex shaders, but lower precision is allowed for fragment shaders, e.g. to avoid draining battery on older mobile devices.)
@@ -408,20 +431,87 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 **A:** This is the name of the variable that contains the data received at location 0.
 
 **Q:** In GLSL ES 3.00, where does the line `layout(location = 0) in <type> <variableName>` go inside a shader?  
-**A:** It goes in the global scope of the shader, before `main()`.  
-**Hint:** The `main()` function doesn’t take any parameters, so putting data in the global scope gives it access.
+**A:** It goes in the global scope of the shader, before `main()`.
 
 **Q:** What special built-in variable must the Vertex Shader write to?  
 **A:** `gl_Position`
 
-**Q:** In a GLSL vertex shader, what is the data type of the built-in variable gl_Position?  
+**Q:** In a GLSL vertex shader, what is the data type of the built-in variable `gl_Position`?  
 **A:** `vec4`
 
 **Q:** In GLSL ES 3.00, what is the syntax to define the output color variable in a fragment shader?  
 **A:** `out vec4 fragColor;` (You can name the variable whatever you want, but `fragColor` is conventional.)
 
+**Q:** In GLSL ES 3.00, where does the code defining the output color variable in a fragment shader go?  
+**A:** It goes in the global scope of the shader, before `main()`.
+
 **Q:** What does the `uniform` storage qualifier indicate?  
 **A:** It indicates a variable that is constant per draw call. (It’s global within the shader.)
+
+## Finishing the data bridge (configuring attributes)
+
+**Q:** An attribute will not be used unless it’s explicitly turned on using what syntax?   
+**A:** `gl.enableVertexAttribArray(index)`
+
+**Q:** What’s the signature of `gl.vertexAttribPointer()`? (Parameter list and return value.)  
+**A:**  
+`gl.vertexAttribPointer(index, size, type, normalized, stride, offset)`  
+*Return value:*  None ( `undefined`).  
+**Hint:** Mentally chunk the parameters into three pairs—`index`, `size`; `type`, `normalized`; `stride`, `offset`.
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `index` parameter represent?   
+**A:** The attribute `location` in the vertex shader.
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `size` parameter represent?   
+**A:** The number of components per vertex (e.g., `2` for a `vec2`, `3` for a `vec3`).
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `type` parameter represent?   
+**A:** The data type of the array components (usually `gl.FLOAT`).
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `normalized` parameter represent?   
+**A:** A boolean value indicating whether integer data should be normalized to $\[-1, 1\]$ or $\[0, 1\]$ when converted to a float (has no effect for floats and is typically set to `false` in that case).
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `stride` parameter represent?   
+**A:** Byte offset (distance in bytes) between the start of one vertex attribute and the next one of the same type. (Equivalently, the number of bytes used to store attributes corresponding to one vertex  
+**Hint:** Imagine attributes are stored like `x0, y0, u0, v0, x1, y1, u1, v1…` The stride tells WebGL that the memory occupied by `x0, y0, u0, v0` corresponds to one vertex.
+
+**Q:** What term do we use to describe attribute data like `x0, y0, u0, v0, x1, y1, u1, v1…` in which attributes of different kinds are stored together in the same buffer?   
+**A:** *Interleaved*
+
+**Q:** What term do we use to describe attribute data like `x0, y0, x1, y1,…`  in which attributes in a buffer all have the same kind (e.g. they’re all positions)?  
+**A:** *Tightly packed*  
+**Hint:** If only positions are represented, then that means there’s zero space between positions (e.g. we don’t have position data, then color data, then position data, etc.).
+
+**Q:** What value do we give `stride` when calling `gl.vertexAttribPointer()`, if we want data to be tightly packed?  
+**A:** `0`  
+**Hint:** This is a special case: if `0` were the byte offset from the start of one position to the start of the next (for example), that’d mean there’s no position data. So WebGL interprets zero to mean “tightly packed,” (e.g. zero bytes between the *end* of one position and the *start* of the next).
+
+**Q:** If `stride` is set to zero when calling `gl.vertexAttribPointer()`,  how can WebGL determine the byte offset to get from one attribute to the next?  
+**A:** WebGL interprets a `stride` of `0` to mean the data is tightly packed (e.g. all position data, with no color data in between). It then automatically calculates the correct byte offset based on the `size` and `type` parameters.
+
+**Q:** When calling `gl.vertexAttribPointer()`, suppose `size` is set to `3`, `type` is set to `gl.FLOAT`, and `stride` is set to zero. WebGL will automatically calculate that the byte offset between attributes is equal to what value?  
+**A:** A stride of zero means the data is tightly packed, so we have attributes with three components packed right next to each other. A `gl.FLOAT` consists of 32 bits, which is four bytes (a *byte* is eight bits). So, the byte offset is 3 components \* 4 bytes / component \= 12 bytes.
+
+**Q:** Roughly, when might it be useful to use tightly packed attributes in a WebGL array buffer?  
+**A:** Using tightly packed attributes means that all positions would go into one array buffer, all colors would go into another, etc. This can be useful for **dynamic geometry**, e.g. when positions need to be updated but not colors.
+
+**Q:** Roughly, when might it be useful to use interleaved attributes in a WebGL array buffer?  
+**A:** This keeps all data for a single vertex close together in memory, which can be more efficient for **static geometry**, e.g. where it’s not necessary to update positions but keep colors the same. (Interleaved attributes also make it possible to deal with just a single buffer.)
+
+**Q:** In `gl.vertexAttribPointer()`, what does the `offset` parameter represent?   
+**A:** The byte offset from the start of the buffer to the first component of the first vertex attribute.
+
+**Q:** When `gl.vertexAttribPointer()` is called, how does WebGL know which VBO to read data from?   
+**A:** It uses whichever buffer is currently bound to the `gl.ARRAY_BUFFER` target.
+
+**Q:** When `gl.vertexAttribPointer()` is called, it associates data in the active array buffer with what attribute?
+**A:** The attribute at the specified `index` (location).
+
+**Q:** What object stores the configuration set by `gl.vertexAttribPointer()` and `gl.enableVertexAttribArray()`? 
+**A:** The Vertex Array Object (VAO).
+
+**Q:** Why do we use VAOs instead of just binding VBOs and setting pointers every frame?
+**A:** A VAO allows us to store complex attribute setups once and restore them with a single bind call.
 
 ## WebGL2 shader compilation
 
@@ -449,9 +539,9 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 **A:** `gl.getShaderParameter(shader, gl.COMPILE_STATUS)`
 
 **Q:** What is the return type of `gl.getShaderParameter(shader, gl.COMPILE_STATUS)`?  
-**A:** Boolean (`bool`)
+**A:** `Boolean`
 
-**Q:** If `gl.getShaderParameter(shader, gl.COMPILE_STATUS)` indicates an error has occurred, what syntax allows you to see the error?  
+**Q:** If `gl.getShaderParameter(shader, gl.COMPILE_STATUS)` indicates an error has occurred, what syntax gets a string with information about the error?  
 **A:** Use `gl.getShaderInfoLog(shader)`.
 
 **Q:** In WebGL, why should you delete a shader object after it fails to compile?  
@@ -489,9 +579,9 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 **A:** `gl.getProgramParameter(program, gl.LINK_STATUS)` 
 
 **Q:** What is the return type of `gl.getProgramParameter(program, gl.LINK_STATUS)`?  
-**A:** Boolean (`bool`)
+**A:** `Boolean`
 
-**Q:** If `gl.getProgramParameter(program, gl.LINK_STATUS)` indicates an error has occurred, what syntax allows you to see the error?  
+**Q:** If `gl.getProgramParameter(program, gl.LINK_STATUS)` indicates an error has occurred, what syntax gets a string with information about the error?  
 **A:** `gl.getProgramInfoLog(program)`
 
 **Q:** In WebGL, why should you delete a program object after it fails to link?  
@@ -545,11 +635,98 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 2. **Shader Source Code:** Define two template strings, `vsSource` and `fsSource`.  
    * **Vertex Shader:**  
      * Accept an attribute `position` at location 0. Note that your buffer has 2 numbers per vertex, so this should be a `vec2`.  
-     * Output a `gl_Position`. (Hint: You will need to cast your `vec2` input.)  
+     * Output a `gl_Position`. (Hint: You will need to convert your `vec2` input.)
    * **Fragment Shader:**  
-     * Set the color to orange: `vec4(1.0, 0.4, 0.0, 1.0)`.  
-     * Output the color.  
+     * Declare the variable to output.   
+     * Output the color orange: `vec4(1.0, 0.4, 0.0, 1.0)`.
 3. **Execution:**  
    * Call your helper to create the program.  
    * Tell WebGL to use this program.  
    * Draw the triangle.
+  
+**Solution:**
+```javascript
+// CANVAS
+const canvas = document.getElementById('yellow-canvas');
+const gl = canvas.getContext('webgl2');
+const yellow = [243 / 255, 208 / 255, 62 / 255, 1];
+
+gl.clearColor(...yellow);
+gl.clear(gl.COLOR_BUFFER_BIT);
+
+// TRIANGLE
+const TAU = 2 * Math.PI;
+const r = 2 / 3;
+const t0 = TAU / 4;
+const dt = TAU / 3;
+
+const triangleVertices = new Float32Array([
+  r * Math.cos(t0), r * Math.sin(t0), 
+  r * Math.cos(t0 + dt), r * Math.sin(t0 + dt), 
+  r * Math.cos(t0 + 2 * dt), r * Math.sin(t0 + 2 * dt),
+]);
+
+// SHADER SOURCE
+const vsSource = `#version 300 es
+layout(location = 0) in vec2 position;
+
+void main() {
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const fsSource = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+
+void main() {
+  fragColor = vec4(1.0, 0.4, 0.0, 1.0);
+}
+`;
+
+// STATE MANAGEMENT: VAO AND VBO
+const vao = gl.createVertexArray();
+gl.bindVertexArray(vao);
+const vbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);
+gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+// CREATE AND USE PROGRAM
+const program = createProgram(gl, vsSource, fsSource);
+gl.useProgram(program);
+
+// DRAW
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+// CREATION UTILITIES: SHADERS AND PROGRAM 
+function createShader(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.log(gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
+  }
+  return shader;
+}
+
+function createProgram(gl, vsSource, fsSource) {
+  const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+  const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+  if (!vs || !fs) return null;
+  
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.log(gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+    return null;
+  }
+  return program;
+}
+```
