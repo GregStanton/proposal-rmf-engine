@@ -674,6 +674,11 @@ const shader = `#version 300 es
 </details>
 
 <details>
+<summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, what is a basic use case for the <code>normalized</code> parameter?</summary>
+<p><strong>A:</strong> If RGB values for a color are provided in the range $[0, 255]$ (with a <code>type</code> of <code>gl.UNSIGNED_BYTE</code>), setting the <code>normalized</code> parameter to true will automatically convert that data to floats in the required $[0.0, 1.0]$ range for color data.</p>
+</details>
+
+<details>
 <summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, what does the <code>stride</code> parameter represent?</summary>
 <p><strong>A:</strong> Byte offset (distance in bytes) between the start of one vertex attribute and the next one of the same type. (Equivalently, the number of bytes used to store attributes corresponding to one vertex</p>
 <p><strong>Hint:</strong> Imagine attributes are stored like <code>x0, y0, u0, v0, x1, y1, u1, v1…</code> The stride tells WebGL that the memory occupied by <code>x0, y0, u0, v0</code> corresponds to one vertex.</p>
