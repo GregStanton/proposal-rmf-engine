@@ -1008,11 +1008,11 @@ const shader = `#version 300 es
 
 ```javascript
 // CANVAS
-const canvas = document.getElementById('butter-yellow-canvas');
+const canvas = document.getElementById('yellow-canvas');
 const gl = canvas.getContext('webgl2');
-const butterYellow = [243 / 255, 208 / 255, 62 / 255, 1];
+const yellow = [243 / 255, 208 / 255, 62 / 255, 1];
 
-gl.clearColor(...butterYellow);
+gl.clearColor(...yellow);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
 // TRIANGLE
