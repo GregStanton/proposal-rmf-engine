@@ -110,7 +110,7 @@ Here, we outline high-level aspects of a robust implementation.
 
 To solve the distortions inherent to the Frenet-Serret and fixed-up approaches, we can use rotation minimizing frames, computed with a state-of-the-art method known as *double reflection*. Compared to previous methods, this technique improves accuracy, simplicity, and speed. More precisely, *it offers* $\mathcal{O}(h^4)$ *accuracy*, compared to the standard $\mathcal{O}(h^2)$, ensuring stability even with fewer samples.
 
-The technique was introduced by Wang, Jüttler, Zheng, and Liu (2008), researchers at the University of Hong Kong and Johannes Kepler University, in the paper *Computation of Rotation Minimizing Frames*. A recent overview of related techniques may be found in *Balancing Rotation Minimizing Frames with Additional Objectives* by Mossman, Bartels, and Samavati (2023), representing research from the University of Calgary and the University of Waterloo.
+The technique was introduced by Wang, Jüttler, Zheng, and Liu (2008), researchers at the University of Hong Kong and Johannes Kepler University, in the paper "Computation of Rotation Minimizing Frames." A recent overview of related techniques may be found in "Balancing Rotation Minimizing Frames with Additional Objectives" by Mossman, Bartels, and Samavati (2023), representing research from the University of Calgary and the University of Waterloo.
 
 ### Caps
 
