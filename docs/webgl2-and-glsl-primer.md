@@ -1117,6 +1117,10 @@ Time for some 3D action!
 
 <details> <summary><strong>Q:</strong> When calling <code>gl.uniformMatrix4fv()</code> in WebGL, how is the <code>data</code> parameter typically specified?</summary> <p><strong>A:</strong> It's typically specified as a <code>Float32Array</code> (it could also be a sequence of separate 32-bit floats).</p></details>
 
+<details> <summary><strong>Q:</strong> What function must you call before setting any uniforms? </summary> <p><strong>A:</strong> <code>gl.useProgram()</code></p></details>
+
+<details> <summary><strong>Q:</strong> Why must a program be in use before setting any uniforms? </summary> <p><strong>A:</strong> Uniforms are global to the <em>program object</em> and are stored in that object, not in the global WebGL state. (WebGL needs to know <em>which</em> program's memory you intend to update.)</p> </details>
+
 <details>
 <summary><strong>Q:</strong> WebGL clip space is left-handed ($+z$ into screen). However, the popular <code>glMatrix</code> matrix library uses a right-handed system ($+z$ towards viewer), which aligns with standard mathematical conventions. Which matrix in <code>glMatrix</code> handles the conversion between them?</summary>
 <p><strong>A:</strong> The projection matrix (it flips the $z$-axis).</p>
@@ -1134,6 +1138,8 @@ Time for some 3D action!
 <details> <summary><strong>Q:</strong> In WebGL, what feature must be enabled to prevent background triangles from drawing on top of foreground triangles? Answer in words. </summary> <p><strong>A:</strong> The <em>depth test</em>.</p> </details>
 
 <details> <summary><strong>Q:</strong> What syntax enables the depth test in WebGL?</summary> <p><strong>A:</strong> <code>gl.enable(gl.DEPTH_TEST)</code></p> </details>
+
+<details> <summary><strong>Q:</strong> Does setting <code>gl.enable(gl.DEPTH_TEST)</code> require an active program?</summary> <p><strong>A:</strong> No.</p> <p><strong>Hint:</strong> Depth testing is part of the <em>global context state</em>, not the program state.</p> </details>
 
 <details> <summary><strong>Q:</strong> When the depth test is enabled in WebGL, what update must you be sure to make every frame? Answer in words. </summary> <p><strong>A:</strong> Clear the depth buffer. (This ensures that old data doesn't persist.)</p> </details>
 
