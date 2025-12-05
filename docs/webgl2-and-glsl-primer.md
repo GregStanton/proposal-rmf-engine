@@ -1008,11 +1008,11 @@ const shader = `#version 300 es
 
 ```javascript
 // CANVAS
-const canvas = document.getElementById('yellow-canvas');
+const canvas = document.getElementById('butter-yellow-canvas');
 const gl = canvas.getContext('webgl2');
-const yellow = [243 / 255, 208 / 255, 62 / 255, 1];
+const butterYellow = [243 / 255, 208 / 255, 62 / 255, 1];
 
-gl.clearColor(...yellow);
+gl.clearColor(...butterYellow);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
 // TRIANGLE
@@ -1054,11 +1054,9 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 gl.enableVertexAttribArray(0);
 gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
-// CREATE AND USE PROGRAM
+// CREATE AND USE PROGRAM TO DRAW
 const program = createProgram(gl, vsSource, fsSource);
 gl.useProgram(program);
-
-// DRAW
 gl.drawArrays(gl.TRIANGLES, 0, 3);
 
 // CREATION UTILITIES: SHADERS AND PROGRAM 
@@ -1066,10 +1064,12 @@ function createShader(gl, type, source) {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
+  
+  // Check success
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.log(gl.getShaderInfoLog(shader));
+    const shaderInfoLog = gl.getShaderInfoLog(shader);
     gl.deleteShader(shader);
-    return null;
+    throw new Error(`Could not compile shader: ${shaderInfoLog}`);
   }
   return shader;
 }
@@ -1077,16 +1077,16 @@ function createShader(gl, type, source) {
 function createProgram(gl, vsSource, fsSource) {
   const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
   const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-  if (!vs || !fs) return null;
   
   const program = gl.createProgram();
   gl.attachShader(program, vs);
   gl.attachShader(program, fs);
   gl.linkProgram(program);
+  
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.log(gl.getProgramInfoLog(program));
+    const programInfoLog = gl.getProgramInfoLog(program);
     gl.deleteProgram(program);
-    return null;
+    throw new Error(`Could not link program: ${programInfoLog}`);
   }
   return program;
 }
