@@ -670,7 +670,7 @@ const shader = `#version 300 es
 
 <details>
 <summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, what does the <code>normalized</code> parameter represent?</summary>
-<p><strong>A:</strong> A boolean value indicating whether integer data should be normalized to $[-1, 1]$ or $[0, 1]$ when converted to a float (has no effect for floats and is typically set to <code>false</code> in that case).</p>
+<p><strong>A:</strong> A boolean value indicating whether integer data should be normalized to $[-1, 1]$ or $[0, 1]$ when converted to a float (has no effect for floats, so it's typically set to <code>false</code> in that case, as enabling normalization would have no effect).</p>
 </details>
 
 <details>
