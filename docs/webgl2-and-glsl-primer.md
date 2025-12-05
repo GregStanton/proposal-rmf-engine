@@ -551,19 +551,21 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 </details>
 
 <details>
-<summary><strong>Q:</strong> In a WebGL2 shader, what is wrong with the following code?</summary>
-```javascript
-const shader = `
-#version 300 es
-// more code here...
-`;
-```
+<summary>
+  <strong>Q:</strong> 
+  In a WebGL2 shader, what is wrong with the following code?
+  
+  <pre>
+  const shader = `
+  #version 300 es
+  // more code here...
+  `;</pre>
+</summary>
 <p><strong>A:</strong> There is a newline after the backtick, creating a blank line above the version specification. It should look like this instead:</p>
-```javascript
+<pre>
 const shader = `#version 300 es
 // more code here...
-`;
-```
+`;</pre>
 </details>
 
 <details>
