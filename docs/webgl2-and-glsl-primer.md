@@ -35,7 +35,7 @@ Diagrams covering key concepts in computer graphics are included here, for refer
   src="https://github.com/user-attachments/assets/197931d8-81bc-4b73-ac91-34c7111fa18a" 
 />
 
-*Attribution:* [*coordinate_systems.png*](https://learnopengl.com/img/getting-started/coordinate_systems.png) *by [Joey de Vries](https://x.com/JoeyDeVriez) appears in [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) is licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)*.
+*Attribution:* [*coordinate_systems.png*](https://learnopengl.com/img/getting-started/coordinate_systems.png) *by [Joey de Vries](https://x.com/JoeyDeVriez) appears in [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) and is licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)*.
 
 ### Normalized device coordinates
 
