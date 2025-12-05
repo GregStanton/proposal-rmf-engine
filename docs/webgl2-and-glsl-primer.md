@@ -266,7 +266,7 @@ It’s time to make our first project! We just need to learn a few additional co
 <img width="250" height="250" alt="yellow canvas" src="https://github.com/user-attachments/assets/0498abe0-4899-4204-9549-36e62a7644fa" />
 <p>
   <strong>Problem:</strong>
-  Set up an `index.html` file and a JavaScript file. Make a canvas, get the WebGL context, and use it to set the canvas to a color of your choosing.
+  Set up an <code>index.html</code> file and a JavaScript file. Make a canvas, get the WebGL context, and use it to set the canvas to a color of your choosing.
 </p>
 <details>
   <summary><strong>Solution:</strong></summary>
