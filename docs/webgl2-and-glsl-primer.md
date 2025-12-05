@@ -1099,6 +1099,8 @@ Time for some 3D action!
 
 <details> <summary><strong>Q:</strong> In WebGL, before you can set the value of a uniform, you must look up its address using what syntax?</summary> <p><strong>A:</strong> <code>gl.getUniformLocation(program, name)</code></p> <p><strong>Hint:</strong> Just as attributes have integer locations, uniforms have location objects.</p></details>
 
+<details> <summary><strong>Q:</strong> In <code>gl.getUniformLocation(program, name)</code>, you must be sure that <code>name</code> has what data type?</summary> <p><strong>A:</strong> A string. (Be sure to wrap the name of the uniform in single quotes, so that it's just a variable <em>name</em>, not an actual variable.)</p></details>
+
 <details><summary><strong>Q:</strong> What do "row-major" and "column-major" mean when specifying matrices?</summary> <p><strong>A:</strong> Imagine reading a matrix aloud to someone else. You'll either read it to them row by row (<em>row-major</em> order) or column by column (<em>column-major</em> order). (The same concept applies when storing a matrix in a flat array.)</p> </details>
 
 <details><summary><strong>Q:</strong> In GLSL, what data type represents a $4\times4$ matrix?</summary> <p><strong>A:</strong> <code>mat4</code> (a common shorthand for <code>mat4x4</code>)</p> </details>
