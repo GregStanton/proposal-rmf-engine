@@ -769,8 +769,8 @@ const shader = `#version 300 es
 </details>
 
 <details>
-<summary><strong>Q:</strong> When <code>gl.vertexAttribPointer()</code> is called, it associates data in the active array buffer with what attribute?</summary>
-<p><strong>A:</strong> The attribute at the specified <code>index</code> (location).</p>
+<summary><strong>Q:</strong> When <code>gl.vertexAttribPointer()</code> is called, it links the attribute at the provided <code>index</code> to which buffer?</summary>
+<p><strong>A:</strong> The buffer currently bound to <code>gl.ARRAY_BUFFER.</code></p>
 </details>
 
 <details>
