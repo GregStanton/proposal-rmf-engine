@@ -68,6 +68,14 @@ The following background experience is helpful but not necessary:
 * Very basic familiarity with typed languages  
 * Experience creating graphics with a high-level library like [p5.js](https://p5js.org/) (especially `beginShape([kind])`/`endShape([mode])`)
 
+## Anki tip: Learning lists
+For convenience, the Q&A _cards_ in these notes will sometimes have a full list as an answer. List answers tend to be more cognitively demanding, and therefore can disrupt mental flow unnecessarily. If you find this to be the case during your own spaced-repetition practice, you can customize one of the following methods according to your own background: 
+
+* Accompany the answer with a hint containing a single **acronym or a mnemonic phrase** (e.g. in biology, "Do kings play chess on fine green silk?" is a mnemonic for domain, kingdom, phylum, class, order, family, genus, species)
+* Accompany the answer with a hint explaining how to **chunk** a longer list into only 3–4 items
+* Implement lists using **cloze deletion** in software like Anki (e.g. create a sequence of cards in which all list items are revealed except for one)
+* Create cards explaining how each list item connects conceptually to its neighbors (a form of **elaborative encoding**)
+
 # Introduction
 <details>
 <summary>
