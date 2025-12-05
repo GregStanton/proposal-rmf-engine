@@ -1204,7 +1204,7 @@ Specifications:
 1. **State Management:**
    * Enable the depth test and face culling.
    * Create a VAO.
-   * Create two VBOs: one for positions, one for colors (Note: You can use two <code>bufferData</code> calls and two <code>vertexAttribPointer</code> calls attached to the same VAO).
+   * Create two VBOs: one for `positions`, one for `colors` (Note: You can use two <code>bufferData</code> calls and two <code>vertexAttribPointer</code> calls attached to the same VAO).
    * Configure `position` (attribute location 0) and `color` (attribute location 1).
 2. **Shaders:**
    * **Vertex Shader:**
