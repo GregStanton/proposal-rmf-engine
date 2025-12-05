@@ -347,7 +347,7 @@ Now we'll work toward getting a triangle on the screen. This will take some work
 <li>Upload buffer data.</li>
 <li>Configure attributes (tell VAO how to read the VBO).</li>
 </ol>
-<p><strong>Hint:</strong> Since the WebGL context is a state machine, it needs a place to define state (VAO) <em>before</em> it can organize the data values (VBO).</p>
+<p><strong>Hint:</strong> Since the WebGL context is a state machine, it needs a place to define state (VAO) <em>before</em> it can organize the data values (VBO). Once these are in place, we need to upload data, then tell the VAO how to read it.</p>
 </details>
 
 <details>
