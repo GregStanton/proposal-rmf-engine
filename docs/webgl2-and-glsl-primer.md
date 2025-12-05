@@ -673,7 +673,36 @@ const shader = `#version 300 es
 
 <details>
 <summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, what does the <code>type</code> parameter represent?</summary>
-<p><strong>A:</strong> The data type of the array components (usually <code>gl.FLOAT</code>).</p>
+<p><strong>A:</strong> The data type of the array components.</p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, the <code>type</code> parameter is typically set to what value?</summary>
+<p><strong>A:</strong> <code>gl.FLOAT</code></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> 
+  What precise data type is indicated by <code>gl.FLOAT</code>?
+</summary>
+<p><strong>A:</strong> 
+  A 32-bit (IEEE) floating point number.
+</p>
+</details>
+
+<details>
+<summary>
+  <strong>Q:</strong>
+  A <code>gl.FLOAT</code> consists of how many <em>bytes</em>?
+</summary>
+<p>
+  <strong>A:</strong> 
+  4 bytes
+</p>
+<p>
+  <strong>Hint:</strong> 
+  A <code>gl.FLOAT</code> is a 32-bit floating-point data type. A byte consists of 8 bits.
+</p>
 </details>
 
 <details>
@@ -716,7 +745,7 @@ const shader = `#version 300 es
 
 <details>
 <summary><strong>Q:</strong> When calling <code>gl.vertexAttribPointer()</code>, suppose <code>size</code> is set to <code>3</code>, <code>type</code> is set to <code>gl.FLOAT</code>, and <code>stride</code> is set to zero. WebGL will automatically calculate that the byte offset between attributes is equal to what value?</summary>
-<p><strong>A:</strong> A stride of zero means the data is tightly packed, so we have attributes with three components packed right next to each other. A <code>gl.FLOAT</code> consists of 32 bits, which is four bytes (a <em>byte</em> is eight bits). So, the byte offset is 3 components * 4 bytes / component = 12 bytes.</p>
+<p><strong>A:</strong> A stride of zero means the data is tightly packed, so we have attributes with three components packed right next to each other. A <code>gl.FLOAT</code> consists of four bytes. So, the byte offset is 3 components $\times$ 4 bytes / component = 12 bytes.</p>
 </details>
 
 <details>
