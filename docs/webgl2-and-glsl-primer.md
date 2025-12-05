@@ -1193,7 +1193,7 @@ function draw(timestamp) {
 <details> <summary><strong>Q:</strong> Where do you get the <code>requestID</code> needed to cancel an animation frame request made with <code>requestAnimationFrame()</code>?</summary> <p><strong>A:</strong> It is the return value of the <code>requestAnimationFrame()</code> call.</p> </details>
 
 ## Project 4: The Spinning Cube
-**Goal:** Render a multi-colored cube that rotates in 3D space. You may reuse logic from Project 3 as appropriate.
+**Goal:** Render a multi-colored unit cube, centered at the origin, that rotates in 3D space. You may reuse logic from Project 3 as appropriate.
 
 **Allowed linear-algebra dependency:** You may use [glMatrix](https://glmatrix.net/) for the matrix transformations, by downloading [`gl-matrix-min.js`](https://github.com/toji/gl-matrix/blob/master/dist/gl-matrix-min.js) from the GitHub repo, putting it into a folder called `libs` in your project directory, and then including it in `index.html` with a `<script>` element above the line where you include your own script. You may also use the [`glMatrix` documentation](https://glmatrix.net/docs/module-glMatrix.html) as a reference if needed.
 
