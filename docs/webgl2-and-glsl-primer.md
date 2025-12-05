@@ -1120,6 +1120,13 @@ Time for some 3D action!
 <p><strong>A:</strong> The projection matrix (it flips the $z$-axis).</p>
 </details>
 
+## GLSL matrix multiplication
+<details> <summary><strong>Q:</strong> In GLSL, how do we compute the matrix-vector product $Mv$, where $M$ is a <code>mat4</code> and $v$ is a <code>vec4</code>?</summary> <p><strong>A:</strong> <code>M * v</code></details>
+
+<details> <summary><strong>Q:</strong> In GLSL, how do we compute the matrix product $AB$, where $A$ is a <code>mat4</code> and $B$ is a <code>mat4</code>? (Here, $AB$ refers to the standard matrix product, not an entrywise/Hadamard product.) </summary> <p><strong>A:</strong> <code>A * B</code></p></details>
+
+<details> <summary><strong>Q:</strong> In GLSL, what happens if you try to multiply <code>vector * matrix</code> (vector on the left)?</summary> <p><strong>A:</strong> It treats the vector as a row vector.</p> <p><strong>Hint:</strong> This is valid syntax but usually not what we want, since WebGL adheres to column-major order.</p> </details>
+
 ## 3D-state management (depth and culling)
 
 <details> <summary><strong>Q:</strong> In WebGL, what feature must be enabled to prevent background triangles from drawing on top of foreground triangles? Answer in words. </summary> <p><strong>A:</strong> The <em>depth test</em>.</p> </details>
