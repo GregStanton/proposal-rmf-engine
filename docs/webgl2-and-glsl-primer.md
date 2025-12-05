@@ -1209,7 +1209,7 @@ function draw(timestamp) {
 ## Project 4: The Spinning Cube
 **Goal:** Render a multi-colored unit cube, centered at the origin, that rotates in 3D space. You may reuse logic from Project 3 as appropriate.
 
-**Allowed linear-algebra dependency:** You may use [glMatrix](https://glmatrix.net/) for the matrix transformations, by downloading [`gl-matrix-min.js`](https://github.com/toji/gl-matrix/blob/master/dist/gl-matrix-min.js) from the GitHub repo, putting it into a folder called `libs` in your project directory, and then including it in `index.html` with a `<script>` element above the line where you include your own script. You may also use the [`glMatrix` documentation](https://glmatrix.net/docs/module-glMatrix.html) as a reference if needed.
+**Allowed linear-algebra dependency:** You may use [glMatrix](https://glmatrix.net/) for the matrix transformations, by downloading [`gl-matrix-min.js`](https://github.com/toji/gl-matrix/blob/master/dist/gl-matrix-min.js) from the GitHub repo, putting it into a folder called `libs` in your project directory, and then including it in `index.html` with a `<script>` element above the line where you include your own script. You may also use the [`glMatrix` documentation](https://glmatrix.net/docs/module-glMatrix.html) as a reference if needed. Note that the library exposes a global `glMatrix` object: you'll typically access functions via `glMatrix.mat4.create()`, `glMatrix.vec3.fromValues()`, etc.
 
 **Approach:** To allow distinct colors for each face, you may duplicate vertices. There will then be 36 vertices total: 6 faces $\times$ 2 triangles $\times$ 3 vertices.
 
