@@ -377,7 +377,7 @@ Now we'll work toward getting a triangle on the screen. This will take some work
 
 <details>
 <summary><strong>Q:</strong> What kind of data is usually bound to <code>gl.ARRAY_BUFFER</code>?</summary>
-<p><strong>A:</strong> Vertex attributes (e.g. position, normal, color, texture data)</p>
+<p><strong>A:</strong> Vertex attribute data (e.g. position, normal, color, texture data)</p>
 </details>
 
 <details>
