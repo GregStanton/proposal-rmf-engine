@@ -1,4 +1,4 @@
-# WebGL2 & GLSL Primer: <br /> A zero-to-hero, spaced-repetition guide
+# WebGL2 & GLSL primer: <br /> A zero-to-hero, spaced-repetition guide
 
 **Status:** Drafting in progress  
 **Author:** Greg Stanton
