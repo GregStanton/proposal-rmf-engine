@@ -1136,6 +1136,13 @@ Time for some 3D action!
 
 <details> <summary><strong>Q:</strong> What syntax enables face culling in WebGL?</summary> <p><strong>A:</strong> <code>gl.enable(gl.CULL_FACE)</code></p> </details>
 
+## 3D geometry definition (winding order)
+<details> <summary><strong>Q:</strong> In WebGL, when defining the vertices of a 3D mesh (like a cube), in what winding order should you list the vertices for every face?</summary> <p><strong>A:</strong> Counter-Clockwise (CCW).</p> </details>
+
+<details> <summary><strong>Q:</strong> In WebGL, when determining the CCW winding order for a specific face of a 3D object, where should you imagine yourself standing?</summary> <p><strong>A:</strong> Outside the object, looking directly at the face.</p></details>
+
+<details><summary><strong>Q:</strong> Suppose you defined a face with CCW winding. How does WebGL know when it's hidden from view and can therefore be culled? </summary> <p><strong>A:</strong> If the camera moves behind the face you defined, then the winding order appears to be clockwise on the 2D screen. So, WebGL calculates the 2D winding on the screen; if it flips to CW, it knows you're looking at the back.</p> </details>
+
 ## The animation loop
 <details> <summary><strong>Q:</strong> In the browser, what API is the standard for creating smooth animations? Answer with the precise syntax.</summary> <p><strong>A:</strong> <code>requestAnimationFrame(callback)</code></p> </details>
 
