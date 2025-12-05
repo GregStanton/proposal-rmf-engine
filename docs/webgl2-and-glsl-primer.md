@@ -757,15 +757,32 @@ const shader = `#version 300 es
 ## WebGL2 shader compilation
 
 <details>
-<summary><strong>Q:</strong> In WebGL, what are the high-level steps to setting up a shader object? Answer in words.</summary>
-<p><strong>A:</strong></p>
-<ol>
-<li><em>Create</em></li>
-<li><em>Upload</em> (the GLSL source code)</li>
-<li><em>Compile</em></li>
-<li><em>Check</em> (the compile status)</li>
-<li>If compiling failed, <em>Log</em> (the error) and <em>Delete</em> (the shader).</li>
-</ol>
+  <summary>
+    <strong>Q:</strong> 
+    In WebGL, what are the high-level steps to setting up a shader object? Answer in words.
+  </summary>
+<p>
+  <strong>A:</strong>
+    <ol>
+      <li><em>Create</em></li>
+      <li><em>Upload</em> (the GLSL source code)</li>
+      <li><em>Compile</em></li>
+      <li><em>Check</em> (the compile status)</li>
+      <li>If compiling failed, <em>Handle</em> it (by logging or throwing the error and deleting the shader).</li>
+    </ol>
+</p>
+<p>
+  <strong>Hint:</strong>
+  This list can be chunked into two stages. 
+  <ol>
+    <li> 
+      As with setting up a VBO, we need to <em>Create</em> the object before we <em>Upload</em> to it.
+    </li>
+    <li>
+      Since this is a program, we then need to <em>Compile</em> it, <em>Check</em> for errors, and then <em>Handle</em> errors if needed.
+    </li>
+  </ol>
+</p>
 </details>
 
 <details>
