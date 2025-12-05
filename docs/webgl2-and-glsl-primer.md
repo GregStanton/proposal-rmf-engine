@@ -35,7 +35,7 @@ The image below is sufficient for understanding WebGL drawing modes (shape “ki
 *Attribution:* [“*Available WebGL shapes”*](https://miro.medium.com/v2/resize:fit:1100/format:webp/0*HQHB5lCGqlOUiysy.jpg) *appears in [A Brief Introduction to WebGL](https://medium.com/trabe/a-brief-introduction-to-webgl-5b584db3d6d6), by Martín Lamas.*
 
 ### Homogeneous coordinates and matrix transformations
-A [brief overview of the relevant math concepts](https://math.hws.edu/graphicsbook/c3/s5.html) can be found in the online book _Introduction to Computer Graphics_, by David J. Eck. Regarding matrix representations, knowledge of the inner structure of the matrices is not required. All that’s required is an understanding that matrix multiplication represents geometric transformations. Specific APIs for programming matrix operations are not assumed in these notes.
+A [brief overview of the relevant math concepts](https://math.hws.edu/graphicsbook/c3/s5.html) can be found in the online book _Introduction to Computer Graphics_, by David J. Eck. Regarding matrix representations, knowledge of the inner structure of the matrices is not required. All that’s required is a procedural understanding of matrix multiplication, and a conceptual understanding that matrix multiplication represents geometric transformations. Specific APIs for programming matrix operations are not assumed in these notes.
 
 ### Overview of coordinate systems
 It’s enough to understand the significance of each source and target space, from local to screen space, and to know the sequence of transformations between them. For the relevant context, see [Projection and viewing](https://math.hws.edu/graphicsbook/c3/s3.html) in Eck, or [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) in the online book _Learn OpenGL_, by [Joey de Vries](https://joeydevries.com/#home).
@@ -643,11 +643,6 @@ const shader = `#version 300 es
 <p><strong>A:</strong> It goes in the global scope of the shader, before <code>main()</code>.</p>
 </details>
 
-<details>
-<summary><strong>Q:</strong> What does the <code>uniform</code> storage qualifier indicate?</summary>
-<p><strong>A:</strong> It indicates a variable that is constant per draw call. (It’s global within the shader.)</p>
-</details>
-
 ## Finishing the data bridge (configuring attributes)
 
 <details>
@@ -1094,3 +1089,140 @@ function createProgram(gl, vsSource, fsSource) {
 }
 ```
 </details>
+
+# Hello spinning cube
+Time for some 3D action!
+
+## Uniforms and matrices in GLSL
+
+<details><summary><strong>Q:</strong> In GLSL, what storage qualifier is used for variables that remain constant for all vertices in a single draw call (e.g., a transformation matrix)?</summary> <p><strong>A:</strong> <code>uniform</code></p></details>
+
+<details> <summary><strong>Q:</strong> In WebGL, before you can set the value of a uniform, you must look up its address using what syntax?</summary> <p><strong>A:</strong> <code>gl.getUniformLocation(program, name)</code></p> <p><strong>Hint:</strong> Just as attributes have integer locations, uniforms have location objects.</p></details>
+
+<details><summary><strong>Q:</strong> What do "row-major" and "column-major" mean when specifying matrices?</summary> <p><strong>A:</strong> Imagine reading a matrix aloud to someone else. You'll either read it to them row by row (<em>row-major</em> order) or column by column (<em>column-major</em> order). (The same concept applies when storing a matrix in a flat array.)</p> </details>
+
+<details><summary><strong>Q:</strong> In GLSL, what data type represents a $4\times4$ matrix?</summary> <p><strong>A:</strong> <code>mat4</code> (a common shorthand for <code>mat4x4</code>)</p> </details>
+
+<details><summary><strong>Q:</strong> In WebGL and GLSL, what is the convention regarding matrix order (column-major or row-major), if any? </summary> <p><strong>A:</strong> Always colunn major.</p> <p><strong>Hint:</strong> This is consistent with mathematical conventions, whereby the matrix of a transformation is built from vectors that are represented as columns.</p></details>
+
+<details><summary><strong>Q:</strong> What is the order of multiplication when multiplying a matrix $M$ by a vector $v$, when following a column-major convention? </summary> <p><strong>A:</strong> $Mv$ </p> <p><strong>Hint:</strong> Since $v$ is a column, it must go on the right for the matrix product to be defined, in general.</p></details>
+
+<details><summary><strong>Q:</strong> What is the order of multiplication when multiplying a matrix $M$ by a vector $v$, when following a row-major convention? </summary> <p><strong>A:</strong> $vM$ </p> <p><strong>Hint:</strong> Since $v$ is a row, it must go on the left for the matrix product to be defined, in general.</p></details>
+
+<details> <summary><strong>Q:</strong> In WebGL, if you want to set the value of a uniform variable declared as a <code>mat4</code> in GLSL, what syntax do you use?</summary> <p><strong>A:</strong> <code>gl.uniformMatrix4fv(location, transpose, data)</code></p> <p><strong>Hint:</strong> It stands for "uniform Matrix 4 float vector," where float vector refers to the type of <code>data</code> used to specify the matrix.</p> </details>
+
+<details> <summary><strong>Q:</strong> When calling <code>gl.uniformMatrix4fv()</code> in WebGL, what must the <code>transpose</code> argument always be?</summary> <p><strong>A:</strong> <code>false</code></p> <p><strong>Hint:</strong> The <code>transpose</code> parameter is kept for consistency with OpenGL, but WebGL requires this to be <code>false</code>, so that matrices are always in column-major order.</p> </details>
+
+<details> <summary><strong>Q:</strong> When calling <code>gl.uniformMatrix4fv()</code> in WebGL, how is the <code>data</code> parameter typically specified?</summary> <p><strong>A:</strong> It's typically specified as a <code>Float32Array</code> (it could also be a sequence of separate 32-bit floats).</p></details>
+
+<details>
+<summary><strong>Q:</strong> WebGL clip space is left-handed ($+z$ into screen). However, the popular <code>glMatrix</code> matrix library uses a right-handed system ($+z$ towards viewer), which aligns with standard mathematical conventions. Which matrix in <code>glMatrix</code> handles the conversion between them?</summary>
+<p><strong>A:</strong> The projection matrix (it flips the $z$-axis).</p>
+</details>
+
+## 3D-state management (depth and culling)
+
+<details> <summary><strong>Q:</strong> In WebGL, what feature must be enabled to prevent background triangles from drawing on top of foreground triangles? Answer in words. </summary> <p><strong>A:</strong> The <em>depth test</em>.</p> </details>
+
+<details> <summary><strong>Q:</strong> What syntax enables the depth test in WebGL?</summary> <p><strong>A:</strong> <code>gl.enable(gl.DEPTH_TEST)</code></p> </details>
+
+<details> <summary><strong>Q:</strong> When the depth test is enabled in WebGL, what update must you be sure to make every frame? Answer in words. </summary> <p><strong>A:</strong> Clear the depth buffer. (This ensures that old data doesn't persist.)</p> </details>
+
+<details> <summary><strong>Q:</strong> In computer graphics, what is "face culling"?</summary> <p><strong>A:</strong> It's an optimization that avoids drawing faces that wouldn't be visible anyway (e.g. the back face of a cube).</p> </details>
+
+<details> <summary><strong>Q:</strong> In WebGL, face culling is applied to triangles if they have what spatial relation to the camera?</summary> <p><strong>A:</strong> The triangles are culled if they are facing away from the camera.</p> <p><strong>Hint:</strong> Imagine that you color a paper triangle red, but if someone flips it over, they'll see it's still white on the other side. That's the back face. WebGL also has a way of determining which face of a triangle is the front and which is the back.</p></details>
+
+<details> <summary><strong>Q:</strong> By default, WebGL determines a triangle is "front-facing" if its vertices are defined in what winding order?</summary> <p><strong>A:</strong> Counter-Clockwise (CCW).</p> <p><strong>Hint:</strong> This is the positive orientation in the xy-plane: starting from the positive x-axis, this direction moves us through Quadrant I first.</p></details>
+
+<details> <summary><strong>Q:</strong> What syntax enables face culling in WebGL?</summary> <p><strong>A:</strong> <code>gl.enable(gl.CULL_FACE)</code></p> </details>
+
+## The animation loop
+<details> <summary><strong>Q:</strong> In the browser, what API is the standard for creating smooth animations? Answer with the precise syntax.</summary> <p><strong>A:</strong> <code>requestAnimationFrame(callback)</code></p> </details>
+
+<details> <summary><strong>Q:</strong> Why is <code>requestAnimationFrame()</code> so named? </summary> <p><strong>A:</strong> It requests the browser to call the provided callback function, which determines the next frame in the animation.</p> </details>
+
+<details> <summary><strong>Q:</strong> How does <code>requestAnimationFrame()</code> behave when the browser tab is inactive (not visible)?</summary> <p><strong>A:</strong> It pauses (or slows down significantly) to save battery and CPU cycles.</p> </details>
+
+<details> <summary><strong>Q:</strong> <code>requestAnimationFrame()</code> runs its callback exactly once. How do you create a continuous loop?</summary> <p><strong>A:</strong> Call <code>requestAnimationFrame</code> recursively inside the callback function.</p> </details>
+
+<details> <summary><strong>Q:</strong> What argument does <code>requestAnimationFrame()</code> automatically pass to its callback function?</summary> <p><strong>A:</strong> A <code>timestamp</code> argument (a <code>DOMHighResTimeStamp</code> type, indicating when the frame starts).</p> </details>
+
+<details> 
+  <summary>
+    <strong>Q:</strong> 
+    What is the minimal code structure for a continuous animation loop created with <code>requestAnimationFrame()</code>? (Assume the callback is named <code>draw</code>).
+  </summary> 
+  <p><strong>A:</strong></p>
+<pre>function draw(now) {
+  // 1. Update state and render...
+  // 2. Schedule next frame
+  requestAnimationFrame(draw);
+}
+
+// 3. Start the loop
+requestAnimationFrame(draw);</pre>
+</details>
+
+<details><summary><strong>Q:</strong> The <code>timestamp</code> passed to the <code>requestAnimationFrame()</code> callback represents time in what unit?</summary><p><strong>A:</strong> Milliseconds.</p></details>
+
+<details><summary><strong>Q:</strong> The <code>timestamp</code> passed to the <code>requestAnimationFrame()</code> callback measures time elapsed since what event? (Be general).</summary><p><strong>A:</strong> Since the time origin (usually when the page loaded).</p></details>
+
+<details><summary><strong>Q:</strong> In the context of an animation created with <code>requestAnimationFrame()</code>, what does it mean to calculate a <em>zeroed</em> time?</summary><p><strong>A:</strong> It refers to calculating an elapsed time starting when the animation logic begins, rather than when the page loaded.</p></details>
+
+<details>
+  <summary>
+    <strong>Q:</strong> 
+    What's a simple way to calculate a zeroed time for an animation made with <code>requestAnimationFrame(callback)</code>? Sketch your answer in code, using a callback function named <code>draw</code>.
+  </summary>
+  <p><strong>A:</strong></p>
+<pre>let startTime;
+
+function draw(timestamp) {
+  if (!startTime) {
+    startTime = timestamp;
+  }
+  const elapsed = timestamp - startTime;
+  
+  // draw logic...
+  
+  requestAnimationFrame(draw);
+}</pre>
+  </details>
+<details> <summary><strong>Q:</strong> What syntax stops a scheduled animation frame request made with <code>requestAnimationFrame()</code>?</summary> <p><strong>A:</strong> <code>cancelAnimationFrame(requestID)</code></p> </details>
+
+<details> <summary><strong>Q:</strong> Where do you get the <code>requestID</code> needed to cancel an animation frame request made with <code>requestAnimationFrame()</code>?</summary> <p><strong>A:</strong> It is the return value of the <code>requestAnimationFrame()</code> call.</p> </details>
+
+## Project 4: The Spinning Cube
+**Goal:** Render a multi-colored cube that rotates in 3D space. You may reuse logic from Project 3 as appropriate.
+
+**Allowed linear-algebra dependency:** You may use [glMatrix](https://glmatrix.net/) for the matrix transformations, by downloading [`gl-matrix-min.js`](https://github.com/toji/gl-matrix/blob/master/dist/gl-matrix-min.js) from the GitHub repo, putting it into a folder called `libs` in your project directory, and then including it in `index.html` with a `<script>` element above the line where you include your own script. You may also use the [`glMatrix` documentation](https://glmatrix.net/docs/module-glMatrix.html) as a reference if needed.
+
+**Approach:** To allow distinct colors for each face, you may duplicate vertices. There will then be 36 vertices total: 6 faces $\times$ 2 triangles $\times$ 3 vertices.
+
+Specifications:
+
+1. **State Management:**
+   * Enable the depth test and face culling.
+   * Create a VAO.
+   * Create two VBOs: one for positions, one for colors (Note: You can use two <code>bufferData</code> calls and two <code>vertexAttribPointer</code> calls attached to the same VAO).
+   * Configure `position` (attribute location 0) and `color` (attribute location 1).
+2. **Shaders:**
+   * **Vertex Shader:**
+     * Attributes: `in vec3 position`, `in vec3 color`.
+     * Uniforms: `uniform mat4 uModel`, `uniform mat4 uView`, `uniform mat4 uProjection`.
+     * Output: `out vec3 vColor` ("v" is conventional and stands for "varying," just as "u" stands for "uniform" in `uModel`).
+     * Main: Set `gl_Position = uProjection * uView * uModel * vec4(position, 1.0);`. Pass `color` to `vColor`.
+   * **Fragment Shader:**
+     * Input: `in vec3 vColor`.
+     * Output: `fragColor` using the interpolated input color (alpha 1.0).
+3. **Matrix Logic (`glMatrix`):**
+    * Create three matrices (`mat4.create()`) for Model, View, and Projection.
+    * **Projection:** Use `mat4.perspective`. (FOV: 45 degrees in radians, Aspect: canvas width/height, Near: 0.1, Far: 100.0).
+    * **View:** Use `mat4.lookAt`. (Eye: `[0, 0, 4]`, Center: `[0, 0, 0]`, Up: `[0, 1, 0]`).
+    * **Model:** In the render loop, use `mat4.rotate`.
+4. **Render Loop:**
+    * Use `requestAnimationFrame`.
+    * Clear both color and depth buffers.
+    * Update the model matrix (rotate it slightly every frame).
+    * Upload all three matrices via `gl.uniformMatrix4fv`.
+    * Draw 36 vertices using `gl.TRIANGLES`.
