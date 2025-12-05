@@ -1,32 +1,44 @@
-# WebGL2 & GLSL Primer: <br /> A spaced-repetition guide to building a low-level RMF engine from scratch
+# WebGL2 & GLSL Primer: <br /> A zero-to-hero, spaced-repetition guide
 
 **Status:** Drafting in progress  
 **Author:** Greg Stanton
 
-These notes introduce the fundamentals of WebGL2 and GLSL in a natural order. The concepts and syntax are chunked into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, to provide practice with applying the ideas as soon as they’re introduced.
+These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Diagrams and references on prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced.
 
 # Background
 Before diving in, we need to make sure we have some prerequisite concepts and skills in place.
 
 ## Prerequisite topics
 
-The following topics are assumed:
+Knowledge of HTML and JavaScript is assumed. Diagrams and references are provided for the following prerequisite topics in computer graphics:
 
-* HTML and JavaScript  
-* 3D primitives, including triangle strips and triangle fans  
-* [Homogeneous coordinates](https://en.wikipedia.org/wiki/Homogeneous_coordinates) in projective geometry  
-* Matrix representations of linear, affine, and projective transformations  
-* Standard 3D rendering pipeline
+* 3D primitives, including triangle strips and triangle fans
+* Homogeneous coordinates in projective geometry
+* Matrix representations of linear, affine, and projective transformations
+* Transforms in the standard 3D rendering pipeline
 
-Regarding matrix representations, knowledge of the inner structure of the matrices is not required. All that’s required is an understanding of how matrix multiplication represents geometric transformations. An [overview of relevant math](https://math.hws.edu/graphicsbook/c3/s5.html) can be found in the online book Introduction to Computer Graphics, by David J. Eck.
+## Prerequisite diagrams and references
 
-Regarding the 3D rendering pipeline, it’s enough to understand the significance of each source and target space, from local to screen space, and to know the sequence of transformations between them. An [overview of relevant coordinate systems](https://math.hws.edu/graphicsbook/c3/s3.html) may also be found in Eck. An [alternative overview](https://learnopengl.com/Getting-started/Coordinate-Systems) may be found in the online book Learn OpenGL, by [Joey de Vries](https://joeydevries.com/#home).
+This section contains references and diagrams covering the graphics preqrequisites.
 
-## Prerequisite diagrams
+### Drawing modes
 
-Diagrams covering key concepts in computer graphics are included here, for reference.
+The image below is sufficient for understanding WebGL drawing modes (shape “kinds” in p5.js):
+
+<img 
+  width="828" 
+  height="517" 
+  alt="A diagram illustrating the meaning of each drawing mode available in WebGL, including the following: `gl.POINTS`, `gl.LINES`, `gl.LINE_STRIP`, `gl.LINE_LOOP`, `gl.TRIANGLES`, `gl.TRIANGLE_STRIP`, `gl.TRIANGLE_FAN`."
+  src="https://github.com/user-attachments/assets/3cd05534-3f2a-412c-a10e-e29ef8e6bd52" 
+/>
+
+*Attribution:* [“*Available WebGL shapes”*](https://miro.medium.com/v2/resize:fit:1100/format:webp/0*HQHB5lCGqlOUiysy.jpg) *appears in [A Brief Introduction to WebGL](https://medium.com/trabe/a-brief-introduction-to-webgl-5b584db3d6d6), by Martín Lamas.*
+
+### Homogeneous coordinates and matrix transformations
+A [brief overview of the relevant math concepts](https://math.hws.edu/graphicsbook/c3/s5.html) can be found in the online book _Introduction to Computer Graphics_, by David J. Eck. Regarding matrix representations, knowledge of the inner structure of the matrices is not required. All that’s required is an understanding that matrix multiplication represents geometric transformations. Specific APIs for programming matrix operations are not assumed in these notes.
 
 ### Overview of coordinate systems
+It’s enough to understand the significance of each source and target space, from local to screen space, and to know the sequence of transformations between them. For the relevant context, see [Projection and viewing](https://math.hws.edu/graphicsbook/c3/s3.html) in Eck, or [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) in the online book _Learn OpenGL_, by [Joey de Vries](https://joeydevries.com/#home).
 
 <img 
   width="800" 
@@ -38,6 +50,7 @@ Diagrams covering key concepts in computer graphics are included here, for refer
 *Attribution:* [*coordinate_systems.png*](https://learnopengl.com/img/getting-started/coordinate_systems.png) *by [Joey de Vries](https://x.com/JoeyDeVriez) appears in [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) and is licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)*.
 
 ### Normalized device coordinates
+We'll be directly dealing with normalized-device coordinates early on. WebGL automatically converts clip-space coordinates to normalized-device coordinates, prior to applying the viewport transform.
 
 <img 
   width="503" 
@@ -46,20 +59,7 @@ Diagrams covering key concepts in computer graphics are included here, for refer
   src="https://github.com/user-attachments/assets/ea261f7e-18ed-4141-81fd-3e6de54513ce"
 />
 
-*Attribution:* *Image of NDC space (referred to as “clipspace” in original source) appears in [WebGL model view projection - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_model_view_projection) and is licensed under [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/deed.en).*
-
-### Drawing modes
-
-The image below is sufficient for understanding drawing modes (shape “kinds” in p5.js):
-
-<img 
-  width="828" 
-  height="517" 
-  alt="A diagram illustrating the meaning of each drawing mode available in WebGL, including the following: `gl.POINTS`, `gl.LINES`, `gl.LINE_STRIP`, `gl.LINE_LOOP`, `gl.TRIANGLES`, `gl.TRIANGLE_STRIP`, `gl.TRIANGLE_FAN`."
-  src="https://github.com/user-attachments/assets/3cd05534-3f2a-412c-a10e-e29ef8e6bd52" 
-/>
-
-*Attribution:* [“*Available WebGL shapes”*](https://miro.medium.com/v2/resize:fit:1100/format:webp/0*HQHB5lCGqlOUiysy.jpg) *appears in [A Brief Introduction to WebGL](https://medium.com/trabe/a-brief-introduction-to-webgl-5b584db3d6d6), by Martín Lamas.*
+*Attribution:* *Image of NDC space (referred to as “clipspace” in original source) appears in [WebGL model view projection - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_model_view_projection) and is licensed under [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en).*
 
 ## Recommended experience
 
