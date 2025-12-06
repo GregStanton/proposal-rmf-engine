@@ -1,6 +1,6 @@
 # WebGL2 & GLSL primer: <br /> A zero-to-hero, spaced-repetition guide
 
-**Status:** Drafting in progress  
+**Status:** Complete  
 **Author:** Greg Stanton
 
 These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Diagrams and references on prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced.
