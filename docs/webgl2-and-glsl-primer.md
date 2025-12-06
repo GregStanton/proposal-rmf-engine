@@ -19,7 +19,7 @@ Knowledge of HTML and JavaScript is assumed. Diagrams and references are provide
 
 ## Prerequisite diagrams and references
 
-This section contains references and diagrams covering the graphics preqrequisites.
+This section contains references and diagrams covering the graphics prerequisites.
 
 ### Drawing modes
 
