@@ -1166,6 +1166,8 @@ Time for some 3D action!
 <details><summary><strong>Q:</strong> Suppose you defined a face with CCW winding. How does WebGL know when it's hidden from view and can therefore be culled? </summary> <p><strong>A:</strong> If the camera moves behind the face you defined, then the winding order appears to be clockwise on the 2D screen. So, WebGL calculates the 2D winding on the screen; if it flips to CW, it knows you're looking at the back.</p> </details>
 
 ## The animation loop
+Here, we learn a general Web API for animations that is exposed to JavaScript. It can be used for many things. We will use it to create an animation with WebGL2.
+
 <details> <summary><strong>Q:</strong> In the browser, what API is the standard for creating smooth animations? Answer with the precise syntax.</summary> <p><strong>A:</strong> <code>requestAnimationFrame(callback)</code></p> </details>
 
 <details> <summary><strong>Q:</strong> Why is <code>requestAnimationFrame()</code> so named? </summary> <p><strong>A:</strong> It requests the browser to call the provided callback function, which determines the next frame in the animation.</p> </details>
