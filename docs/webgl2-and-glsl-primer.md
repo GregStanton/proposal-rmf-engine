@@ -557,17 +557,22 @@ gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
   <strong>Q:</strong> 
   In a WebGL2 shader, what is wrong with the following code?
   
-  <pre>
+  ```javascript
   const shader = `
   #version 300 es
   // more code here...
-  `;</pre>
+  `;
+```
+
 </summary>
 <p><strong>A:</strong> There is a newline after the backtick, creating a blank line above the version specification. It should look like this instead:</p>
-<pre>
+
+```javascript
 const shader = `#version 300 es
 // more code here...
-`;</pre>
+`;
+```
+
 </details>
 
 <details>
@@ -1177,14 +1182,18 @@ Time for some 3D action!
     What is the minimal code structure for a continuous animation loop created with <code>requestAnimationFrame()</code>? (Assume the callback is named <code>draw</code>).
   </summary> 
   <p><strong>A:</strong></p>
-<pre>function draw(now) {
-  // 1. Update state and render...
-  // 2. Schedule next frame
-  requestAnimationFrame(draw);
-}
 
-// 3. Start the loop
-requestAnimationFrame(draw);</pre>
+  ```javascript
+  function draw(timestamp) {
+    // 1. Update state and render...
+    // 2. Schedule next frame
+    requestAnimationFrame(draw);
+  }
+
+  // 3. Start the loop
+  requestAnimationFrame(draw);
+```
+
 </details>
 
 <details><summary><strong>Q:</strong> The <code>timestamp</code> passed to the <code>requestAnimationFrame()</code> callback represents time in what unit?</summary><p><strong>A:</strong> Milliseconds.</p></details>
