@@ -1249,3 +1249,262 @@ Specifications:
     * Update the model matrix (rotate it slightly every frame).
     * Upload all three matrices via `gl.uniformMatrix4fv`.
     * Draw 36 vertices using `gl.TRIANGLES`.
+
+<details>
+  <summary><strong>Solution:</strong></summary>
+
+The solution below moves the WebGL utility functions `createShader()` and `createProgram()` into their own file.
+
+<strong><code>index.html</code>:</strong>
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinning cube</title>
+</head>
+<body>
+    <canvas id="spinning-cube-canvas" width="400" height="400">
+      A canvas with a spinning cube.
+    </canvas>
+    <script src="libs/gl-matrix-min.js"></script>
+    <script src="webgl-utilities.js"></script>
+    <script src="spinning-cube.js"></script>
+</body>
+</html>
+```
+
+<strong><code>spinning-cube.js</code>:</strong>
+```js
+// GET CONTEXT
+const canvas = document.getElementById('spinning-cube-canvas');
+const gl = canvas.getContext('webgl2');
+
+// SET CANVAS BACKGROUND COLOR
+const lightGray = [220 / 255, 220 / 255, 220 / 255, 1];
+gl.clearColor(...lightGray);
+
+// LOAD CUBE DATA
+const positions = getCubePositions();
+const colors = getCubeColors();
+
+// CREATE MATRICES
+const uModel = glMatrix.mat4.create();
+
+const uView = glMatrix.mat4.create();
+const eye = glMatrix.vec3.fromValues(0, 0, 4);
+const center = glMatrix.vec3.fromValues(0, 0, 0);
+const up = glMatrix.vec3.fromValues(0, 1, 0);
+glMatrix.mat4.lookAt(uView, eye, center, up);
+
+const uProjection = glMatrix.mat4.create();
+const fovy = Math.PI / 4;
+const aspect = canvas.width / canvas.height;
+const near = 0.1;
+const far = 100.0;
+glMatrix.mat4.perspective(uProjection, fovy, aspect, near, far);
+
+// CREATE SHADER SOURCE
+const vsSource = `#version 300 es
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 color;
+uniform mat4 uModel;
+uniform mat4 uView;
+uniform mat4 uProjection;
+out vec3 vColor;
+
+void main() {
+  gl_Position = uProjection * uView * uModel * vec4(position, 1.0);
+  vColor = color;
+}
+`;
+
+const fsSource = `#version 300 es
+precision highp float;
+in vec3 vColor;
+out vec4 fragColor;
+
+void main() {
+  fragColor = vec4(vColor, 1.0);
+}
+`;
+
+// MANAGE STATE: VAO AND VBO
+const vao = gl.createVertexArray();
+gl.bindVertexArray(vao);
+
+const positionVBO = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, positionVBO);
+gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);
+gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+
+const colorVBO = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, colorVBO);
+gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
+gl.enableVertexAttribArray(1);
+gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+
+// CREATE AND ACTIVATE PROGRAM
+const program = createProgram(gl, vsSource, fsSource);
+gl.useProgram(program);
+
+// ACTIVATE 3D OPERATIONS
+gl.enable(gl.DEPTH_TEST);
+gl.enable(gl.CULL_FACE);
+
+// GET MATRIX LOCATIONS
+const uModelLocation = gl.getUniformLocation(program, 'uModel');
+const uViewLocation = gl.getUniformLocation(program, 'uView');
+const uProjectionLocation = gl.getUniformLocation(program, 'uProjection');
+
+// SET STATIC MATRICES
+gl.uniformMatrix4fv(uViewLocation, false, uView);
+gl.uniformMatrix4fv(uProjectionLocation, false, uProjection);
+
+// CREATE AXIS OF ROTATION (a unit vector indicates the direction of the axis)
+const axis = glMatrix.vec3.fromValues(1, 1, 0);
+glMatrix.vec3.normalize(axis, axis);
+
+let startTime;
+
+// Tell WebGL how to map the Normalized Device Coordinates (NDC) 
+// of the clip space (-1 to +1) to pixel coordinates on the screen.
+// Required if the canvas is resized after the context is created.
+gl.viewport(0, 0, canvas.width, canvas.height);
+
+// ANIMATE
+function draw(timestamp) {
+  if (!startTime) {
+    startTime = timestamp;
+  }
+  
+  const elapsedTime = timestamp - startTime;
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  // Rotate based on elapsed time (0.001 converts ms to seconds)
+  glMatrix.mat4.identity(uModel); 
+  glMatrix.mat4.rotate(uModel, uModel, elapsedTime * 0.001, axis)
+  gl.uniformMatrix4fv(uModelLocation, false, uModel);
+
+  gl.drawArrays(gl.TRIANGLES, 0, 36);
+
+  requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw);
+
+// CUBE LOADERS
+function getCubePositions() {
+  // 36 vertices (x, y, z)
+  return new Float32Array([
+      // Front face
+      -0.5, -0.5,  0.5,
+      0.5, -0.5,  0.5,
+      0.5,  0.5,  0.5,
+      -0.5, -0.5,  0.5,
+      0.5,  0.5,  0.5,
+      -0.5,  0.5,  0.5,
+
+      // Back face
+      -0.5, -0.5, -0.5,
+      -0.5,  0.5, -0.5,
+      0.5,  0.5, -0.5,
+      -0.5, -0.5, -0.5,
+      0.5,  0.5, -0.5,
+      0.5, -0.5, -0.5,
+
+      // Top face
+      -0.5,  0.5, -0.5,
+      -0.5,  0.5,  0.5,
+      0.5,  0.5,  0.5,
+      -0.5,  0.5, -0.5,
+      0.5,  0.5,  0.5,
+      0.5,  0.5, -0.5,
+
+      // Bottom face
+      -0.5, -0.5, -0.5,
+      0.5, -0.5, -0.5,
+      0.5, -0.5,  0.5,
+      -0.5, -0.5, -0.5,
+      0.5, -0.5,  0.5,
+      -0.5, -0.5,  0.5,
+
+      // Right face
+      0.5, -0.5, -0.5,
+      0.5,  0.5, -0.5,
+      0.5,  0.5,  0.5,
+      0.5, -0.5, -0.5,
+      0.5,  0.5,  0.5,
+      0.5, -0.5,  0.5,
+
+      // Left face
+      -0.5, -0.5, -0.5,
+      -0.5, -0.5,  0.5,
+      -0.5,  0.5,  0.5,
+      -0.5, -0.5, -0.5,
+      -0.5,  0.5,  0.5,
+      -0.5,  0.5, -0.5,
+  ]);
+}
+
+function getCubeColors() {
+  // 36 colors (r, g, b)
+  // Colors match faces (e.g., first 6 vertices are red, next 6 are green, etc.)
+  return new Float32Array([
+      // Front: Red
+      1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+      // Back: Green
+      0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+      // Top: Blue
+      0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+      // Bottom: Yellow
+      1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0,
+      // Right: Purple
+      1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1,
+      // Left: Cyan
+      0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1,
+  ]);
+}
+```
+
+<strong><code>webgl-utilities.js</code>:</strong>
+```javascript  
+// CREATION UTILITIES: SHADERS AND PROGRAM 
+function createShader(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  
+  // Check success
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    const shaderInfoLog = gl.getShaderInfoLog(shader);
+    gl.deleteShader(shader);
+    throw new Error(`Could not compile shader: ${shaderInfoLog}`);
+  }
+  return shader;
+}
+
+function createProgram(gl, vsSource, fsSource) {
+  const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+  const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+  
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    const programInfoLog = gl.getProgramInfoLog(program);
+    gl.deleteProgram(program);
+    throw new Error(`Could not link program: ${programInfoLog}`);
+  }
+  return program;
+}
+```
+
+</details>
+
