@@ -1255,15 +1255,15 @@ Specifications:
    * **Fragment Shader:**
      * Input: `in vec3 vColor`.
      * Output: `fragColor` using the interpolated input color (alpha 1.0).
-3. **Matrix Logic (`glMatrix`):** Create model, view, and projection matrices.
-    * **Model:** Use `mat4.create()`. In the render loop, use `mat4.rotate`.
+3. **Matrix Logic (`glMatrix`):** Create model, view, and projection matrices. Upload view and projection matrices via `gl.uniformMatrix4fv`.
+    * **Model:** Use `mat4.create()`.
     * **View:** Use `mat4.lookAt`. (Eye: `[0, 0, 4]`, Center: `[0, 0, 0]`, Up: `[0, 1, 0]`).
     * **Projection:** Use `mat4.perspective`. (FOV: $\frac{\pi}{4}$ radians, Aspect: canvas width/height, Near: 0.1, Far: 100.0).
 4. **Render Loop:**
     * Use `requestAnimationFrame`.
     * Clear both color and depth buffers.
-    * Update the model matrix (rotate it slightly every frame).
-    * Upload all three matrices via `gl.uniformMatrix4fv`.
+    * Update the model matrix (rotate it slightly every frame with `mat4.rotate`).
+    * Upload the model matrix via `gl.uniformMatrix4fv`.
     * Draw 36 vertices using `gl.TRIANGLES`.
 
 <details>
