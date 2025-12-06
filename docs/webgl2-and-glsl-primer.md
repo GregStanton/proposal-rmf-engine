@@ -1199,7 +1199,9 @@ requestAnimationFrame(draw);</pre>
     What's a simple way to calculate a zeroed time for an animation made with <code>requestAnimationFrame(callback)</code>? Sketch your answer in code, using a callback function named <code>draw</code>.
   </summary>
   <p><strong>A:</strong></p>
-<pre>let startTime;
+
+```javaScript
+let startTime;
 
 function draw(timestamp) {
   if (!startTime) {
@@ -1210,8 +1212,10 @@ function draw(timestamp) {
   // draw logic...
   
   requestAnimationFrame(draw);
-}</pre>
-  </details>
+}
+```
+  
+</details>
 <details> <summary><strong>Q:</strong> What syntax stops a scheduled animation frame request made with <code>requestAnimationFrame()</code>?</summary> <p><strong>A:</strong> <code>cancelAnimationFrame(requestID)</code></p> </details>
 
 <details> <summary><strong>Q:</strong> Where do you get the <code>requestID</code> needed to cancel an animation frame request made with <code>requestAnimationFrame()</code>?</summary> <p><strong>A:</strong> It is the return value of the <code>requestAnimationFrame()</code> call.</p> </details>
