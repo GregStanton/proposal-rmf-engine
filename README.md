@@ -183,8 +183,10 @@ This infrastructure unlocks three critical capabilities for motion graphics in t
 * **Cinematic camera & object tracking:** Because the RMF method guarantees minimal twist, it is the ideal candidate for camera paths. A camera attached to a frame derived from `getFrameAtLength(t)` will bank smoothly through curves without the violent flipping or twisting artifacts associated with Frenet-Serret or fixed-up implementations.
 * **Write-on & write-off effects:** Rendering a tube that grows or recedes along a path becomes a trivial, production-quality operation. Constant-speed motion is built in, allowing pleasing transitions for motion graphics, or handwriting that reveals itself naturally over time. Text can even be made to flow along bespoke curves at a prescribed speed.  
 * **Composable easing:** A user can define a complex spatial trajectory, and then apply a bounce or spring easing function to the traversal progress, trusting that the visual output will map 1:1 to their timing logic. This works because arc-length parameterization effectively decouples the *geometry* (the path) from the *timing* (the motion). This allows developers to compose paths with expressive easing features.
- 
----
+
+# Community & usage
+Using this spec or the proof-of-concept code in your project? We'd love to see it!
+Drop a link in the ["Show and tell" discussion thread](https://github.com/GregStanton/proposal-rmf-engine/discussions/1).
 
 # Citation & license
 
