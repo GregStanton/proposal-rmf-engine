@@ -77,6 +77,8 @@ For convenience, the Q&A _cards_ in these notes will sometimes have a full list 
 * Create cards explaining how each list item connects conceptually to its neighbors (a form of **elaborative encoding**)
 
 # Introduction
+Sources are provided in this section for foundational concepts. The subsequent project-oriented sections are fully self-contained, but anyone hungry for additional context will be well served by the [MDN WebGL Reference](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), the [OpenGL ES 3.0 Specification](https://registry.khronos.org/OpenGL/specs/es/3.0/es_spec_3.0.pdf), and [The OpenGL ES® Shading Language 3.00.6](https://registry.khronos.org/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf).
+
 <details>
 <summary>
   <strong>Q:</strong> 
@@ -133,7 +135,8 @@ For convenience, the Q&A _cards_ in these notes will sometimes have a full list 
 <details>
 <summary><strong>Q:</strong> Must variable and function declarations have a declared type in GLSL?</summary>
 <p><strong>A:</strong> Yes.</p>
-<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a>, <a href="https://en.wikipedia.org/wiki/Type_system">Type system - Wikipedia</a>, <a href="https://registry.khronos.org/OpenGL/specs/gl/GLSLangSpec.4.60.pdf">The OpenGL® Shading Language, Version 4.60.8</a> (page 26)</p>
+<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a>, <a href="https://en.wikipedia.org/wiki/Type_system">Type system - Wikipedia</a>, <a href="https://registry.khronos.org/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf">The OpenGL ES®
+ Shading Language 3.00.6</a> (page 22)</p>
 </details>
 
 <details>
