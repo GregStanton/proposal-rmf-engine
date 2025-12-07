@@ -1527,6 +1527,11 @@ function createProgram(gl, vsSource, fsSource) {
 </details>
 
 ---
+
+# Citation & license
+
 [![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
 
-This documentation is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+If you found this guide helpful and wish to reference it, please include the following citation:
+
+> [*WebGL2 & GLSL primer: A zero-to-hero, spaced-repetition guide*](https://github.com/GregStanton/proposal-rmf-engine/blob/main/docs/webgl2-and-glsl-primer.md) by Greg Stanton (2025), licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
