@@ -3,25 +3,30 @@
 **Status:** Complete  
 **Author:** Greg Stanton
 
-These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Diagrams and references on prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced.
+These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Brief explanations of prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced.
 
 # Background
 This guide focuses on the _programmable geometry pipeline_—creating form and color through code, logic, and mathematics. It covers the irreducible minimum required to build a 3D engine from scratch. While it establishes the foundation for all graphics tasks, it does not cover external asset management (like texture image loading), focusing instead on the state machine and the vertex/fragment logic essential for procedural graphics and tools like the [RMF Engine](https://github.com/GregStanton/proposal-rmf-engine). Before diving into the programmable geometry pipeline, we'll make sure we have the prerequisite concepts and skills in place.
 
 ## Prerequisite topics
+Prerequisites include both programming and math.
 
-Knowledge of HTML and JavaScript is assumed. Diagrams and references are provided for the following prerequisite topics in computer graphics:
+**Programming:** 
+Knowledge of HTML and JavaScript is assumed.
+
+**Mathematics:** 
+Simple, concise explanations are provided for the topics below.
 
 * 3D primitives, including triangle strips and triangle fans
+* Matrix representations of geometric transformations
 * Homogeneous coordinates in projective geometry
-* Matrix representations of linear, affine, and projective transformations
 * Transforms in the standard 3D rendering pipeline
 
-## Prerequisite diagrams and references
+## Prerequisite explanations
 
-This section contains references and diagrams covering the graphics prerequisites.
+This section explains the mathematical prerequisites at the level of detail we will need, with references for anyone desiring additional detail.
 
-### Drawing modes
+### 3D primitives (drawing modes)
 
 The image below is sufficient for understanding WebGL drawing modes (shape “kinds” in p5.js):
 
@@ -34,11 +39,15 @@ The image below is sufficient for understanding WebGL drawing modes (shape “ki
 
 *Attribution:* [“*Available WebGL shapes”*](https://miro.medium.com/v2/resize:fit:1100/format:webp/0*HQHB5lCGqlOUiysy.jpg) *appears in [A Brief Introduction to WebGL](https://medium.com/trabe/a-brief-introduction-to-webgl-5b584db3d6d6), by Martín Lamas.*
 
-### Homogeneous coordinates and matrix transformations
-A [brief overview of the relevant math concepts](https://math.hws.edu/graphicsbook/c3/s5.html) can be found in the online book _Introduction to Computer Graphics_, by David J. Eck. Regarding matrix representations, knowledge of the inner structure of the matrices is not required. All that’s required is a procedural understanding of matrix multiplication, and a conceptual understanding that matrix multiplication represents geometric transformations. Specific APIs for programming matrix operations are not assumed in these notes.
+### Matrix transformations and homogeneous coordinates
+Below, we explain the two concepts from higher-level math that we'll need, at the level of detail that's required. Anyone who is unfamiliar with vectors, or who desires more detailed explanations of the two concepts explained here, may consult an [overview of the relevant math concepts](https://math.hws.edu/graphicsbook/c3/s5.html) in the online book _Introduction to Computer Graphics_, by David J. Eck.
+
+1. **Matrix representations:** Although we won't be multiplying matrices manually, it will still be helpful to have a procedural understanding of matrix multiplication, which is covered in this [ten-minute YouTube video](https://youtu.be/2spTnAiQg4M?si=Qz-DjwWKN3D9wzQR). It will also be helpful for you to know that matrix multiplication represents geometric transformations. For example, if you want to rotate the point $(1, 1)$ around the origin in the plane, you can accomplish this by multiplying a vector with components `[1, 1]` by a _rotation matrix_. It's not necessary to know how to define matrices for rotations or other transformations; it's enough to know that multiplying by a matrix accomplishes a transformation. Specific APIs for programming matrix operations are not assumed.
+
+2. **Homogeneous coordinates:** Homogeneous coordinates are to projective geometry what Cartesian coordinates are to Euclidean geometry. This is a very cool idea that allows us to represent not just _linear_ transformations (like scaling, rotating, shearing) via matrix multiplication, but also affine transformations (like translations), and even perspective projections (which make distant objects appear smaller). This is accomplished by including one extra coordinate, allowing us to represent both _points_ (which can be translated) and _directions_ (which cannot). It works as follows. When `w` is `0` (nothing), translation vectors cannot attach to anything, so `[x, y, z, 0]` represents the _direction_ `[x, y, z]`. When `w` is `1`, the translation vectors can attach to the extra coordinate, so `[x, y, z, 1]` represents the _point_ `[x, y, z]`. When `w` is a general nonzero value, the vector `[x, y, z, w]` represents the 3D point `[x / w, y / w, z / w]`.
 
 ### Overview of coordinate systems
-It’s enough to understand the significance of each source and target space, from local to screen space, and to know the sequence of transformations between them. For the relevant context, see [Projection and viewing](https://math.hws.edu/graphicsbook/c3/s3.html) in Eck, or [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) in the online book _Learn OpenGL_, by [Joey de Vries](https://joeydevries.com/#home).
+It’s enough to understand the significance of each source and target space, from local to screen space, and to know the sequence of transformations between them. The diagram below contains the essentials.
 
 <img 
   width="800" 
@@ -49,8 +58,18 @@ It’s enough to understand the significance of each source and target space, fr
 
 *Attribution:* [*coordinate_systems.png*](https://learnopengl.com/img/getting-started/coordinate_systems.png) *by [Joey de Vries](https://x.com/JoeyDeVriez) appears in [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) and is licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)*.
 
+The basic role of each space is indicated by the diagram. An example will clarify this further, so let's imagine we are drawing a model car in 3D.
+
+* **Local space**: It's easiest if we can design one tire, centered at the origin. This is _local space_.
+* **World space**: Then we move to the space where the car is, so we can attach the wheel in four places. This is _world space_.
+* **View space**: To view our car, we move into the viewer's space, with the viewer's eye (or camera) being the origin. This is _view space_.
+* **Clip space**: To show what the viewer sees, we need to clip the space, leaving only what's in front of them. This is _clip space_.
+* **Screen space**: Finally, we need to display what the viewer sees on an actual 2D screen (or viewport). This is _screen space_.
+
+While this explanation is sufficient for our purposes, additional details may be found in [Projection and viewing](https://math.hws.edu/graphicsbook/c3/s3.html) in Eck, or [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) in the online book _Learn OpenGL_, by [Joey de Vries](https://joeydevries.com/#home).
+
 ### Normalized device coordinates
-We'll be directly dealing with normalized-device coordinates early on. WebGL automatically converts clip-space coordinates to normalized-device coordinates, prior to applying the viewport transform.
+We'll be directly dealing with normalized device coordinates early on. WebGL automatically converts clip-space coordinates to normalized-device coordinates, prior to applying the viewport transform. By making coordinates range between -1 and 1, it becomes simple to stretch them to match the dimensions of the viewport.
 
 <img 
   width="503" 
