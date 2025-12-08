@@ -356,7 +356,7 @@ Now we'll work toward getting a triangle on the screen. This will take some effo
 </details>
 
 <details>
-<summary><strong>Q:</strong> In WebGL, what does the term "Binding" mean?</summary>
+<summary><strong>Q:</strong> In WebGL, what does the term _binding_ mean?</summary>
 <p><strong>A:</strong> Setting an object (e.g. a VBO) as the "active" value for a particular state in the WebGL state machine.</p>
 </details>
 
