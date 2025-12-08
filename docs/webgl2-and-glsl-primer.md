@@ -170,7 +170,7 @@ Sources are provided in this section for foundational concepts. The subsequent p
 </details>
 
 <details>
-<summary><strong>Q:</strong> What software design pattern best describes the behavior of the WebGL context (`gl`)?</summary>
+<summary><strong>Q:</strong> What software design pattern best describes the behavior of the WebGL context (<code>gl</code>)?</summary>
 <p><strong>A:</strong> A State Machine. (You set a state, and it persists until changed).</p>
 </details>
 
