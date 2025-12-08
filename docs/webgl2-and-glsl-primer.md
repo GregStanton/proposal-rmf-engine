@@ -1134,7 +1134,7 @@ Time for some 3D action!
 
 <details><summary><strong>Q:</strong> In GLSL, what data type represents a $4\times4$ matrix?</summary> <p><strong>A:</strong> <code>mat4</code> (a common shorthand for <code>mat4x4</code>)</p> </details>
 
-<details><summary><strong>Q:</strong> In WebGL and GLSL, what is the convention regarding matrix order (column-major or row-major), if any? </summary> <p><strong>A:</strong> Always colunn major.</p> <p><strong>Hint:</strong> This is consistent with mathematical conventions, whereby the matrix of a transformation is built from vectors that are represented as columns.</p></details>
+<details><summary><strong>Q:</strong> In WebGL and GLSL, what is the convention regarding matrix order (column-major or row-major), if any? </summary> <p><strong>A:</strong> Always column major.</p> <p><strong>Hint:</strong> This is consistent with mathematical conventions, whereby the matrix of a transformation is built from vectors that are represented as columns.</p></details>
 
 <details><summary><strong>Q:</strong> What is the order of multiplication when multiplying a matrix $M$ by a vector $v$, when following a column-major convention? </summary> <p><strong>A:</strong> $Mv$ </p> <p><strong>Hint:</strong> Since $v$ is a column, it must go on the right for the matrix product to be defined, in general.</p></details>
 
