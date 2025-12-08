@@ -211,7 +211,7 @@ As with all sections of this primer, the current introductory section is self co
 
 <details>
 <summary><strong>Q:</strong> What does <code>canvas.getContext('webgl2')</code> return?</summary>
-<p><strong>A:</strong> The <code>WebGL2RenderingContext</code></p>
+<p><strong>A:</strong> A <code>WebGL2RenderingContext</code></p>
 </details>
 
 <details>
