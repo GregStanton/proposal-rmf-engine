@@ -3,7 +3,7 @@
 **Status:** Complete  
 **Author:** Greg Stanton
 
-These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Brief explanations of prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced.
+These notes take the reader from _zero_ (no knowledge of WebGL2 or GLSL) to _hero_ (confidence in everything from low-level state management to 3D graphics production). Brief explanations of prerequisite concepts are provided. Following the prerequisite material, the notes introduce the fundamentals of WebGL2 and GLSL in a natural order, chunking concepts and syntax into a Q&A format, suitable for spaced-repetition practice with software like [Anki](https://apps.ankiweb.net/). Projects are integrated throughout, with solution code, to provide practice applying ideas as soon as they’re introduced. At the end, recommendations on leveraging your new skills is provided, including an annotated list of links to high-quality projects and advanced resources.
 
 # Background
 This guide focuses on the _programmable geometry pipeline_—creating form and color through code, logic, and mathematics. It covers the irreducible minimum required to build a 3D engine from scratch. While it establishes the foundation for all graphics tasks, it does not cover external asset management (like texture image loading), focusing instead on the state machine and the vertex/fragment logic essential for procedural graphics and tools like the [RMF Engine](https://github.com/GregStanton/proposal-rmf-engine). Before diving into the programmable geometry pipeline, we'll make sure we have the prerequisite concepts and skills in place.
@@ -1547,6 +1547,36 @@ function createProgram(gl, vsSource, fsSource) {
 ```
 
 </details>
+
+# Next steps
+
+Now that you have the irreducible minimum of the programmable geometry pipeline memorized, you are ready to build. You can use the following resources to apply your skills to advanced procedural generation, to deepen your theoretical understanding, or to solve specific implementation problems.
+
+
+
+* **[RMF Engine](https://github.com/GregStanton/proposal-rmf-engine):**
+
+  * _What it is:_ A high-fidelity computational engine and API for creative coding, supporting sweep geometries (brushes, ribbons, tubes) and motion rails (camera trajectories, write-on effects, choreographed motion) .
+
+  * _How to use it:_ This is the perfect capstone project to test your new skills, with significant real-world benefits. You can help flesh out the proof of concept, or implement the spec in your favorite creative-coding library. This path is for the bold, as you will need to develop the necessary mathematical skills if you don't yet have them.
+
+* **[WebGL2 Fundamentals](https://webgl2fundamentals.org/):**
+
+  * _What it is:_ The definitive encyclopedia and cookbook for WebGL2.
+
+  * _How to use it:_ Use this as a reference. When you need to implement a specific feature not covered in the current primer (like textures, instanced drawing, or shadow maps), look it up here.
+
+* **[The Book of Shaders](https://thebookofshaders.com/):**
+
+  * _What it is_: A legendary guide to procedural pixel art.
+
+  * _How to use it:_ Use this to master the fragment shader. While this primer focused largely on the vertex pipeline and state machine, the Book of Shaders will teach you how to use math to paint beautiful images on the geometry you create.
+
+* **[Learn OpenGL](https://learnopengl.com/):**
+
+  * _What it is:_ A deep dive into modern graphics theory (written for C++).
+
+  * _How to use it:_ Use this for theory. If you want to understand the physics behind Physically Based Rendering (PBR) or the complex mathematics of lighting models, this is the industry standard.
 
 # Citation & license
 
