@@ -321,7 +321,7 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 </details>
 
 # Hello triangle
-Now we'll work toward getting a triangle on the screen. This will take some work, since we're going to make sure we understand all the low-level boilerplate.
+Now we'll work toward getting a triangle on the screen. This will take some effort, since we're going to make sure we understand all the low-level boilerplate.
 
 ## Starting the data bridge (getting CPU data onto the GPU)
 
