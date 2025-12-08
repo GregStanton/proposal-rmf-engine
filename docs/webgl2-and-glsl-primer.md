@@ -215,7 +215,7 @@ As with all sections of this primer, the current introductory section is self co
 </details>
 
 <details>
-<summary><strong>Q:</strong> The <code>WebGL2RenderingContext</code> is often given what abbreviated name in code?</summary>
+<summary><strong>Q:</strong> A <code>WebGL2RenderingContext</code> is often given what abbreviated name in code?</summary>
 <p><strong>A:</strong> <code>gl</code></p>
 </details>
 
