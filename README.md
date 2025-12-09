@@ -216,5 +216,5 @@ For academic work, references in other formats (IEEE, ACM, APA, etc.) are fine! 
 
 ### Repository license summary
 
-* **Architectural spec ("RMF Engine...") and guide ("WebGL2 & GLSL primer..."):** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) (as noted above)
-* **Source code & implementation:** [MIT License](LICENSE) (*all code files, algorithms, and inline code comments are strictly MIT.*)
+* **Architectural spec ("RMF Engine for creative coding..." in this README):** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) (as noted above)
+* **Source code & implementation:** [MIT License](LICENSE) (all code files, algorithms, and inline code comments are strictly MIT)
