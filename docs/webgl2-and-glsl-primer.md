@@ -64,7 +64,7 @@ The basic role of each space is indicated by the diagram. An example will clarif
 * **World space**: Then we move to the space where the car is, so we can attach the wheel in four places. This is _world space_.
 * **View space**: To view our car, we move into the viewer's space, with the viewer's eye (or camera) being the origin. This is _view space_.
 * **Clip space**: To show what the viewer sees, we need to clip the space, leaving only what's in front of them. This is _clip space_.
-* **Screen space**: Finally, we need to display what the viewer sees on an actual 2D screen (or viewport). This is _screen space_.
+* **Screen space**: Finally, we need to display what the viewer sees on an actual 2D screen (in a viewport). This is _screen space_.
 
 While this explanation is sufficient for our purposes, additional details may be found in [Projection and viewing](https://math.hws.edu/graphicsbook/c3/s3.html) in Eck, or [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems) in the online book _Learn OpenGL_, by [Joey de Vries](https://joeydevries.com/#home).
 
@@ -98,6 +98,9 @@ For convenience, the Q&A _cards_ in these notes will sometimes have a full list 
 # Introduction
 As with all sections of this primer, the current introductory section is self contained. Since the concepts covered here are foundational, sources are provided. Anyone hungry for additional context on subsequent sections will be well served by the [MDN WebGL Reference](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), the [OpenGL ES 3.0 Specification](https://registry.khronos.org/OpenGL/specs/es/3.0/es_spec_3.0.pdf), and [The OpenGL ES® Shading Language 3.00.6](https://registry.khronos.org/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf).
 
+## Shaders
+We begin by defining the core software units that process our geometry.
+
 <details>
 <summary>
   <strong>Q:</strong> 
@@ -114,16 +117,28 @@ As with all sections of this primer, the current introductory section is self co
 </details>
 
 <details>
-<summary><strong>Q:</strong> What’s the mathematical term for the simplest n-dimensional shape?</summary>
-<p><strong>A:</strong> Simplex (plural, simplexes or simplices)</p>
-<p><strong>Note:</strong> A 0-dimensional simplex is a point, a 1-dimensional simplex is a line, and a 2-dimensional simplex is a triangle. (A 3-dimensional simplex is a tetrahedron, which is made up of triangles.)</p>
+<summary><strong>Q:</strong> What mathematical concept unifies points (0D), lines (1D), and triangles (2D)?</summary>
+<p><strong>A:</strong> Each of these is a _simplex_, the simplest n-dimensional shape in its respective dimension.</p>
+<p><strong>Note:</strong> This term is not commonly used in graphics, but it's fundamental in mathematics, which is excellent at unifying seemingly disparate ideas.</p>
 <p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Simplex">Simplex - Wikipedia</a></p>
 </details>
 
 <details>
-<summary><strong>Q:</strong> What hardware component does WebGL run on?</summary>
-<p><strong>A:</strong> The GPU (graphics processing unit)</p>
-<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a>, <a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">Graphics processing unit - Wikipedia</a></p>
+<summary><strong>Q:</strong> In computer graphics, what is a vertex?</summary>
+<p><strong>A:</strong> As in geometry, a vertex is one of a set of points that defines a shape (e.g. the three corners of a triangle). A vertex may have additional attributes for rendering (drawing), such as a color.</p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Vertex_(computer_graphics)">Vertex (computer graphics) - Wikipedia</a>, <a href="https://en.wikipedia.org/wiki/Vertex_(geometry)">Vertex (geometry) - Wikipedia</a></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> In computer graphics, what is a pixel?</summary>
+<p><strong>A:</strong> It’s the smallest visual element on a screen. (It’s also known as a “picture element,” analogous to a chemical element in the periodic table). It’s usually a tiny square.</p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Pixel">Pixel - Wikipedia</a>, <a href="https://en.wikipedia.org/wiki/Chemical_element">Chemical element - Wikipedia</a></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> In computer graphics, what is a fragment?</summary>
+<p><strong>A:</strong> It's a potential pixel. (For example, if part of a line is behind an opaque triangle, the obscured _fragments_ of that line will be discarded, and won't end up coloring a pixel on the screen.) </p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Fragment_(computer_graphics)">Fragment (computer graphics) - Wikipedia</a></p>
 </details>
 
 <details>
@@ -133,22 +148,54 @@ As with all sections of this primer, the current introductory section is self co
 </details>
 
 <details>
+<summary><strong>Q:</strong> What does a vertex shader do?</summary>
+<p><strong>A:</strong> It computes vertex positions. (These determine where geometric primitives are rendered on the screen.)</p>
+<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> What does a fragment shader do?</summary>
+<p><strong>A:</strong> It computes the color of a fragment. (It does this for each fragment in the primitive being drawn.)</p>
+<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
+</details>
+
+<details>
 <summary><strong>Q:</strong> Vertex shaders and fragment shaders are code units of what type? (Are they modules, objects, functions, or something else?)</summary>
 <p><strong>A:</strong> They’re functions.</p>
 <p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
 </details>
 
+## Software and hardware
+Now we zoom out, to understand the context in which our shaders are situated.
+
 <details>
-<summary><strong>Q:</strong> In WebGL, what language is used to code vertex shaders and fragment shaders?</summary>
+<summary><strong>Q:</strong> Is WebGL a language or an API?</summary>
+<p><strong>A:</strong> It's an API. (It allows certain graphics features to be accessed through JavaScript.) </p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/WebGL">WebGL - Wikipedia</a></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> What software design pattern best describes the behavior of WebGL?</summary>
+<p><strong>A:</strong> A state machine. (You set a state, and it persists until changed).</p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> What is a state machine?</summary>
+<p><strong>A:</strong> A mathematical model of computation defined by a list of states, initial values for those states, and the inputs that trigger each transition.</p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-state machine - Wikipedia</a></p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> In WebGL, what language is used specifically to code vertex shaders and fragment shaders?</summary>
 <p><strong>A:</strong> GLSL (OpenGL Shading Language)</p>
 <p><strong>Note:</strong> More precisely, WebGL uses GLSL ES, which is a bit different.</p>
 <p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a>, <a href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">OpenGL Shading Language - Wikipedia</a></p>
 </details>
 
 <details>
-<summary><strong>Q:</strong> What does “OpenGL” stand for?</summary>
-<p><strong>A:</strong> Open Graphics Library</p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/OpenGL">OpenGL - Wikipedia</a></p>
+<summary><strong>Q:</strong> In both WebGL and OpenGL, what does "GL" stand for?</summary>
+<p><strong>A:</strong> Graphics Library</p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/WebGL">WebGL - Wikipedia</a>, <a href="https://en.wikipedia.org/wiki/OpenGL">OpenGL - Wikipedia</a> </p>
 </details>
 
 <details>
@@ -165,47 +212,27 @@ As with all sections of this primer, the current introductory section is self co
 </details>
 
 <details>
-<summary><strong>Q:</strong> In computer graphics, what is a vertex?</summary>
-<p><strong>A:</strong> As in geometry, a vertex is one of a set of points that defines a shape (e.g. the three corners of a triangle). A vertex may have additional attributes for rendering (drawing), such as a color.</p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Vertex_(computer_graphics)">Vertex (computer graphics) - Wikipedia</a>, <a href="https://en.wikipedia.org/wiki/Vertex_(geometry)">Vertex (geometry) - Wikipedia</a></p>
+<summary><strong>Q:</strong> What hardware component does WebGL run on?</summary>
+<p><strong>A:</strong> The GPU (graphics processing unit)</p>
+<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a>, <a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">Graphics processing unit - Wikipedia</a></p>
 </details>
 
-<details>
-<summary><strong>Q:</strong> What does a vertex shader do?</summary>
-<p><strong>A:</strong> It computes vertex positions. (These determine where geometric primitives are rendered on the screen.)</p>
-<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
-</details>
+## Pipelines
+Now that we understand the most basic concepts of shaders, and the software and hardware that power them, we consider how these two engines organize their execution.
 
 <details>
-<summary><strong>Q:</strong> In computer graphics, what is a pixel?</summary>
-<p><strong>A:</strong> It’s the smallest visual element on a screen. (It’s also known as a “picture element,” analogous to a chemical element in the periodic table). It’s usually a tiny square.</p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Pixel">Pixel - Wikipedia</a>, <a href="https://en.wikipedia.org/wiki/Chemical_element">Chemical element - Wikipedia</a></p>
+<summary><strong>Q:</strong> The graphics pipeline can be understood through which two complementary perspectives?</summary>
+<p><strong>A:</strong> The coordinate pipeline (mathematical spaces) and the execution pipeline (hardware stages).</p>
 </details>
 
-<details>
-<summary><strong>Q:</strong> In computer graphics, what is a fragment?</summary>
-<p><strong>A:</strong> It's a potential pixel. (For example, if it represents a pixel on an object that's behind an opaque object, it won't end up coloring a pixel on the screen.) </p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Fragment_(computer_graphics)">Fragment (computer graphics) - Wikipedia</a></p>
-</details>
-
-<details>
-<summary><strong>Q:</strong> What does a fragment shader do?</summary>
-<p><strong>A:</strong> It computes the color of a fragment. (It does this for each fragment in the primitive being drawn.)</p>
-<p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
-</details>
+<details> <summary><strong>Q:</strong> In 3D graphics, what is the standard sequence of stages in the coordinate pipeline? (List them in order.)</summary> <p><strong>A:</strong></p> <ol> <li><strong>Local space</strong> (coordinates relative to an object's origin) </li> <li><strong>World space</strong> (coordinates relative to the origin of the world in which objects are placed) </li> <li><strong>View space</strong> (coordinates relative to the camera/eye) </li> <li><strong>Clip space</strong> (coordinates accounting for the eye's field of vision) </li> <li><strong>Screen space</strong> (coordinates for the physical viewport)</li></ol></details>
 
 <details> <summary><strong>Q:</strong> What is rasterization?</summary> <p><strong>A:</strong> The process of converting vector geometry (points, lines, triangles) into fragments.</p> </details>
 
-<details>
-<summary><strong>Q:</strong> What software design pattern best describes the behavior of the WebGL context (<code>gl</code>)?</summary>
-<p><strong>A:</strong> A State Machine. (You set a state, and it persists until changed).</p>
-</details>
+<details> <summary><strong>Q:</strong> In WebGL, what are the main stages of the execution pipeline? (List them in order.)</summary> <p><strong>A:</strong></p> <ol> <li><strong>Vertex shader</strong> (positions the geometry) </li> <li><strong>Rasterization</strong> (converts vector geometry into fragments)</li> <li><strong>Fragment shader</strong> (computes the color of each fragment) </li> <li><strong>Fragment processing</strong> (determines how fragments translate into pixels)</li> </ol> </details>
 
-<details>
-<summary><strong>Q:</strong> What is a state machine?</summary>
-<p><strong>A:</strong> A mathematical model of computation defined by a list of states, initial values for those states, and the inputs that trigger each transition.</p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-state machine - Wikipedia</a></p>
-</details>
+## Access syntax
+Now we learn how to access the world we just described.
 
 <details>
 <summary><strong>Q:</strong> In the DOM, what HTML element provides the drawing surface for WebGL?</summary>
