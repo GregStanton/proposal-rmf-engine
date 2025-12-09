@@ -184,9 +184,11 @@ As with all sections of this primer, the current introductory section is self co
 
 <details>
 <summary><strong>Q:</strong> What does a fragment shader do?</summary>
-<p><strong>A:</strong> It computes pixel colors. (It does this for each pixel in the primitive being drawn.)</p>
+<p><strong>A:</strong> It computes pixel (fragment) colors. (It does this for each pixel in the primitive being drawn.)</p>
 <p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
 </details>
+
+<details> <summary><strong>Q:</strong> What is rasterization?</summary> <p><strong>A:</strong> The process of converting vector geometry (points, lines, triangles) into discrete pixels (fragments) on the screen.</p> </details>
 
 <details>
 <summary><strong>Q:</strong> What software design pattern best describes the behavior of the WebGL context (<code>gl</code>)?</summary>
