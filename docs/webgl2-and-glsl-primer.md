@@ -501,7 +501,7 @@ Now we'll work toward getting a triangle on the screen. This will take some effo
 
 <details> <summary><strong>Q:</strong> What syntax explicitly configures the viewport transform?</summary> <p><strong>A:</strong> <code>gl.viewport(x, y, width, height)</code>, where the <code>x</code> and <code>y</code> parameters are the lower-left corner of the rendering area relative to the canvas, and the other parameters are the rendering area's dimensions.</p> </details>
 
-## Project 2: Set up VBO and VAO, supply triangle data
+## Project 2: Create and bind VBO and VAO, supply triangle data
 
 This project is continued from [Project 1](#project-1-colored-canvas).
 
