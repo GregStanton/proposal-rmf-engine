@@ -440,8 +440,13 @@ Now we'll work toward getting a triangle on the screen. This will take some effo
 ## Coordinates expected by WebGL
 
 <details>
-<summary><strong>Q:</strong> In WebGL, vertex coordinates in a VBO are expected to be in what space? Name the space and indicate the pipeline transform that maps to it.</summary>
-<p><strong>A:</strong> Clip space. It’s the target space of the projection transform.</p>
+<summary><strong>Q:</strong> In WebGL, vertex coordinates in a VBO are expected to be in what space?</summary>
+<p><strong>A:</strong> Local space. (Also known as <em>model space</em>.)</p>
+</details>
+
+<details>
+<summary><strong>Q:</strong> In WebGL, vertex coordinates output by a vertex shader are expected to be in what space?</summary>
+<p><strong>A:</strong> Clip space.</p>
 </details>
 
 <details>
