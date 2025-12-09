@@ -801,12 +801,7 @@ const shader = `#version 300 es
 
 <details>
 <summary><strong>Q:</strong> When <code>gl.vertexAttribPointer()</code> is called, how does WebGL know which VBO to read data from?</summary>
-<p><strong>A:</strong> It uses whichever buffer is currently bound to the <code>gl.ARRAY_BUFFER</code> target.</p>
-</details>
-
-<details>
-<summary><strong>Q:</strong> When <code>gl.vertexAttribPointer()</code> is called, it links the attribute at the provided <code>index</code> to which buffer?</summary>
-<p><strong>A:</strong> The buffer currently bound to <code>gl.ARRAY_BUFFER.</code></p>
+<p><strong>A:</strong> It uses whichever buffer is bound to the <code>gl.ARRAY_BUFFER</code> when <code>gl.vertexAttribPointer()</code> is called.</p>
 </details>
 
 <details>
