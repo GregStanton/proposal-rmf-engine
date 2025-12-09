@@ -677,7 +677,7 @@ const shader = `#version 300 es
 <p><strong>A:</strong> It goes in the global scope of the shader, before <code>main()</code>.</p>
 </details>
 
-## Finishing the data bridge (configuring attributes)
+## Finishing the data bridge (enabling and configuring attributes)
 
 <details>
 <summary><strong>Q:</strong> An attribute will not be used unless it’s explicitly turned on using what syntax?</summary>
