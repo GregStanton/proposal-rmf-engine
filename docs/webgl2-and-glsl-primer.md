@@ -183,12 +183,18 @@ As with all sections of this primer, the current introductory section is self co
 </details>
 
 <details>
+<summary><strong>Q:</strong> In computer graphics, what is a fragment?</summary>
+<p><strong>A:</strong> It's a potential pixel. (For example, if it represents a pixel on an object that's behind an opaque object, it won't end up coloring a pixel on the screen.) </p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Fragment_(computer_graphics)">Fragment (computer graphics) - Wikipedia</a></p>
+</details>
+
+<details>
 <summary><strong>Q:</strong> What does a fragment shader do?</summary>
-<p><strong>A:</strong> It computes pixel (fragment) colors. (It does this for each pixel in the primitive being drawn.)</p>
+<p><strong>A:</strong> It computes the color of a fragment. (It does this for each fragment in the primitive being drawn.)</p>
 <p><strong>Source:</strong> <a href="https://webgl2fundamentals.org/webgl/lessons/webgl-fundamentals.html">WebGL2 Fundamentals</a></p>
 </details>
 
-<details> <summary><strong>Q:</strong> What is rasterization?</summary> <p><strong>A:</strong> The process of converting vector geometry (points, lines, triangles) into discrete pixels (fragments) on the screen.</p> </details>
+<details> <summary><strong>Q:</strong> What is rasterization?</summary> <p><strong>A:</strong> The process of converting vector geometry (points, lines, triangles) into fragments.</p> </details>
 
 <details>
 <summary><strong>Q:</strong> What software design pattern best describes the behavior of the WebGL context (<code>gl</code>)?</summary>
@@ -198,7 +204,7 @@ As with all sections of this primer, the current introductory section is self co
 <details>
 <summary><strong>Q:</strong> What is a state machine?</summary>
 <p><strong>A:</strong> A mathematical model of computation defined by a list of states, initial values for those states, and the inputs that trigger each transition.</p>
-<p><strong>Source:</strong> <a href="https://en.wikipedia.org/w/index.php?title=Finite-state_machine&oldid=1323472796">Finite-state machine on Wikipedia</a></p>
+<p><strong>Source:</strong> <a href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-state machine - Wikipedia</a></p>
 </details>
 
 <details>
