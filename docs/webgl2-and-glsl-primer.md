@@ -685,6 +685,11 @@ const shader = `#version 300 es
 </details>
 
 <details>
+<summary><strong>Q:</strong> In <code>gl.enableVertexAttribArray(index)</code>, what does <code>index</code> represent?</summary>
+<p><strong>A:</strong> The <code>location</code> of the attribute that will receive the data in the shader (set by <code>layout(location = index)</code>).</p>
+</details>
+
+<details>
 <summary><strong>Q:</strong> What’s the signature of <code>gl.vertexAttribPointer()</code>? (Parameter list and return value.)</summary>
 <p><strong>A:</strong><br />
 <code>gl.vertexAttribPointer(index, size, type, normalized, stride, offset)</code><br />
@@ -694,7 +699,7 @@ const shader = `#version 300 es
 
 <details>
 <summary><strong>Q:</strong> In <code>gl.vertexAttribPointer()</code>, what does the <code>index</code> parameter represent?</summary>
-<p><strong>A:</strong> The attribute <code>location</code> in the vertex shader.</p>
+<p><strong>A:</strong> The <code>location</code> of the attribute that will receive the data in the shader (set by <code>layout(location = index)</code>).</p>
 </details>
 
 <details>
