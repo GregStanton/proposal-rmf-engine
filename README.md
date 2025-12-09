@@ -152,7 +152,7 @@ The code in this repository is meant to validate the performance and stability o
 
 # WebGL2 and GLSL primer
 
-For anyone who'd like to get up to speed in order to understand the implementation, I've provided a [primer](docs/webgl2-and-glsl-primer.md), starting from scratch with WebGL2 and GLSL fundamentals.
+For anyone who'd like to get up to speed in order to understand the implementation, I've written a [primer](https://github.com/GregStanton/webgl2-glsl-primer), starting from scratch with WebGL2 and GLSL fundamentals.
 
 # References
 
