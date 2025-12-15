@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMF Engine demos</title>
+</head>
+<body>
+    // DEMOS
+    <canvas id="spline-parameterizations" width="400" height="400">
+      Two dots moving along a spline, 
+      one using a typical parameterization, producing a non-constant speed, and 
+      another using an arc-length parameterization, producing a constant speed.
+    </canvas>
+
+    // SCRIPTS
+    <script src="../libs/gl-matrix-min.js"></script>
+    <script src="../utils/webgl-helpers.js"></script>
+    <script type="module" src="../src/shapes.js"></script>
+    <script src="spline-parameterizations-demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "proposal-rmf-engine",
+  "version": "0.1.0",
+  "description": "A state-of-the-art, high-fidelity engine for a composable system of sweep geometries and motion rails, with an intuitive API suitable for creative-coding libraries. (A proof of concept.)",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "webgl2",
+    "glsl",
+    "creative-coding",
+    "motion-graphics",
+    "procedural-geometry",
+    "sweep-geometry",
+    "motion-rails",
+    "camera-path",
+    "splines",
+    "rotation-minimizing-frames",
+    "arc-length"
+  ],
+  "author": "Greg Stanton",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^4.0.15"
+  }
+}
