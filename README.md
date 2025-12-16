@@ -217,5 +217,5 @@ For academic work, references in other formats (IEEE, ACM, APA, etc.) are fine! 
 
 * **Architectural spec ("RMF Engine for creative coding..." in this README):** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) (as noted above)
 * **Source code & implementation:** 
-  * [LGPL 2.1](LICENSE-LGPL.txt): The file `custom-shapes.js` is a modified version of the file of the same name in p5.js, which is licensed under LGPL 2.1. This file contains features that pass path or triangle-strip data to a `Shape` instance via `beginShape()`/`endShape()`.
-  * [MIT](LICENSE-MIT.txt): The remainder of the codebase, including the RMF Engine implementation, algorithms, and inline documentation, is licensed under the MIT License. These components link to `custom-shapes.js` but do not derive from it.
+  * [LGPL 2.1](LICENSE-LGPL.txt): The file `shapes.js` is a modified version of the `custom-shapes.js` file in p5.js, which is licensed under LGPL 2.1. This file contains features that pass path or triangle-strip data to a `Shape` instance via `beginShape()`/`endShape()`.
+  * [MIT](LICENSE-MIT.txt): The remainder of the codebase, including the RMF Engine implementation, algorithms, and inline documentation, is licensed under the MIT License. These components link to `shapes.js` but do not derive from it.
