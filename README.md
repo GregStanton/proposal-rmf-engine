@@ -187,7 +187,7 @@ This infrastructure unlocks three critical capabilities for motion graphics in t
 Using this spec or the proof-of-concept code in your project? We'd love to see it!
 Drop a link in the ["Show and tell" discussion thread](https://github.com/GregStanton/proposal-rmf-engine/discussions/1).
 
-# Citation & license
+# Citations
 
 [![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
 
@@ -213,9 +213,10 @@ For academic work, references in other formats (IEEE, ACM, APA, etc.) are fine! 
 
 </details>
 
-### Repository license summary
+# Licenses
+The contents of this repo fall under different licenses:
 
 * **Architectural spec ("RMF Engine for creative coding..." in this README):** [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) (as noted above)
 * **Source code & implementation:** 
-  * [LGPL 2.1](LICENSE-LGPL.txt): The file `shapes.js` is a modified version of the `custom-shapes.js` file in p5.js, which is licensed under LGPL 2.1. This file contains features that pass path or triangle-strip data to a `Shape` instance via `beginShape()`/`endShape()`.
+  * [LGPL 2.1](LICENSE-LGPL.txt): The file `shapes.js` is a modified version of the file `custom-shapes.js` in p5.js, which is licensed under LGPL 2.1. This file contains features that pass path or triangle-strip data to a `Shape` instance via `beginShape()`/`endShape()`.
   * [MIT](LICENSE-MIT.txt): The remainder of the codebase, including the RMF Engine implementation, algorithms, and inline documentation, is licensed under the MIT License. These components link to `shapes.js` but do not derive from it.
