@@ -1,3 +1,7 @@
+/**
+ * @module webgl-helpers
+ */
+
 // CREATION HELPERS: SHADERS AND PROGRAM 
 function createShader(gl, type, source) {
   const shader = gl.createShader(type);
