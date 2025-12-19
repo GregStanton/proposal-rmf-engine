@@ -34,7 +34,7 @@
  */
 
 /**
- * @module Shapes
+ * @module shapes
  * @requires Color
  * @requires Vector
  * @requires constants
